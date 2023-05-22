@@ -1,6 +1,5 @@
 package com.dimitriusdev.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,10 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dimitriusdev.likeminded.R;
 import com.dimitriusdev.models.Project;
-import com.dimitriusdev.models.ProjectItemModel;
 import com.dimitriusdev.viewmodels.ProfileViewModel;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class ProfileProjectListAdapter extends RecyclerView.Adapter<ProfileProjectListAdapter.ViewHolder> {

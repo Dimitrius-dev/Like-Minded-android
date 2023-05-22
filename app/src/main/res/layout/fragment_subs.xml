@@ -4,19 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_sub_1"
+    android:background="@color/white"
 
-    tools:context="com.dimitriusdev.fragments.SearchListFragment">
+    tools:context="com.dimitriusdev.fragments.navigation.SearchListFragment">
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:text="@string/subs"
-        android:textSize="24sp"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:textColor="@color/main_theme_color_1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.095"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/guideline6"
@@ -27,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="52dp" />
+        app:layout_constraintGuide_begin="74dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSubsProjects"

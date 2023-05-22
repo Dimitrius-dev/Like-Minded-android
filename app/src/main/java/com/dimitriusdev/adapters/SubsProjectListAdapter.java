@@ -14,22 +14,35 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dimitriusdev.likeminded.R;
+import com.dimitriusdev.models.MsgModel;
 import com.dimitriusdev.models.Project;
+import com.dimitriusdev.providers.AuthProvider;
+import com.dimitriusdev.repository.api.SubsApi;
 import com.dimitriusdev.viewmodels.ProfileViewModel;
+import com.dimitriusdev.viewmodels.SubsViewModel;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class SubsProjectListAdapter extends RecyclerView.Adapter<SubsProjectListAdapter.ViewHolder> {
 
-    private ProfileViewModel profileViewModel;
+    private SubsApi subsApi;
+    private AuthProvider authProvider;
+    private SubsViewModel subsViewModel;
     private final LayoutInflater layoutInflater;
     private List<Project> projectItemModels;
 
     public SubsProjectListAdapter(Context context, List<Project> projectList) {
+        this.subsApi = new SubsApi();
+        this.authProvider = AuthProvider.getInstance();
+
         this.layoutInflater = LayoutInflater.from(context);
         this.projectItemModels = projectList;
 
-        this.profileViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(ProfileViewModel.class);
+        this.subsViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(SubsViewModel.class);
     }
 //
     public void updateList(List<Project> newProjectItemModels){
@@ -45,16 +58,32 @@ public class SubsProjectListAdapter extends RecyclerView.Adapter<SubsProjectList
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Project projectItemModel = projectItemModels.get(position);
-        holder.projectName.setText(projectItemModel.getName() + " " + String.valueOf(position) + " " + projectItemModel.getDescription());
-        holder.projectAuthor.setText(projectItemModel.getAuthorCustomer().getLogin());
+        Project project = projectItemModels.get(position);
+        holder.projectName.setText(project.getName() + " " + String.valueOf(position) + " " + project.getDescription());
+        holder.projectAuthor.setText(project.getAuthorCustomer().getLogin());
 
-        holder.imageButton.setOnClickListener(v -> {
+        holder.unsubImageButton.setOnClickListener(v -> {
             Log.d("CHECK", String.valueOf(position));
 
-            profileViewModel.removeProject(position);
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(0, projectItemModels.size());
+            subsApi.createRequest()
+                    .unsubscribeOnSub(authProvider.getAuthModel().getLogin(), project.getName())
+                    .enqueue(new Callback<>() {
+                        @Override
+                        public void onResponse(Call<MsgModel> call, Response<MsgModel> response) {
+                            Log.i("RESPONSE removeProject", String.valueOf(response.code()));
+                            if (response.code() == 200) {
+                                subsViewModel.removeProject(position);
+                                notifyItemRemoved(position);
+                                notifyItemRangeChanged(0, projectItemModels.size());
+                                return;
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<MsgModel> call, Throwable t) {
+                        }
+                    });
+
+
         });
     }
 
@@ -66,14 +95,14 @@ public class SubsProjectListAdapter extends RecyclerView.Adapter<SubsProjectList
     public static class ViewHolder extends RecyclerView.ViewHolder{
         final TextView projectName;
         final TextView projectAuthor;
-        final ImageButton imageButton;
+        final ImageButton unsubImageButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             projectName = itemView.findViewById(R.id.project_name_sub);
             projectAuthor = itemView.findViewById(R.id.project_author_sub);
-            imageButton = itemView.findViewById(R.id.unsub);
+            unsubImageButton = itemView.findViewById(R.id.unsub);
         }
     }
 }

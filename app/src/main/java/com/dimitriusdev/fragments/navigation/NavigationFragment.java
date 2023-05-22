@@ -1,11 +1,10 @@
-package com.dimitriusdev.fragments;
+package com.dimitriusdev.fragments.navigation;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -13,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dimitriusdev.likeminded.R;
+import com.dimitriusdev.providers.AuthProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -88,6 +88,8 @@ public final class NavigationFragment extends Fragment {
                 return false;
             }
         });
+
+
         bottomNavigationView.setSelectedItemId(R.id.item_profile);
 
 

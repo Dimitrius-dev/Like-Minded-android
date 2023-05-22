@@ -1,4 +1,4 @@
-package com.dimitriusdev.fragments;
+package com.dimitriusdev.fragments.navigation;
 
 import android.os.Bundle;
 

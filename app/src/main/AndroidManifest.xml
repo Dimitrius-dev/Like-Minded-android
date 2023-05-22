@@ -6,14 +6,13 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
 
-
     <application
         android:usesCleartextTraffic="true"
 
         android:allowBackup="true"
-        android:label="Like-minded"
-        android:icon="@mipmap/ic_launcher"
-        android:theme="@style/Theme.JointU"
+        android:label="LikeMinded"
+        android:icon="@drawable/baseline_people_icon"
+        android:theme="@style/LikeMinded"
         tools:targetApi="33" >
         <activity
             android:name="com.dimitriusdev.activity.MainActivity"

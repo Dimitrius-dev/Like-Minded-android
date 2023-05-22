@@ -16,4 +16,7 @@
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
     <color name="orange">#C8821B</color>
+
+    <color name="main_theme_color_1">#F4BD78</color>
+    <color name="main_theme_color_2">#7952B0</color>
 </resources>

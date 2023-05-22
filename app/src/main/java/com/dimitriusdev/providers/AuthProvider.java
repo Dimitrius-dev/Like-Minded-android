@@ -18,8 +18,11 @@ public class AuthProvider {
 
 
     private AuthModel authModel;
+
+    //Dima
     private AuthProvider() {
-        this.authModel = new AuthModel("Dima", "testPassword");
+
+        this.authModel = new AuthModel("", "");
     }
 
     public AuthModel getAuthModel() {

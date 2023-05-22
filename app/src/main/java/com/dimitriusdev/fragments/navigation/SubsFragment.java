@@ -1,4 +1,4 @@
-package com.dimitriusdev.fragments;
+package com.dimitriusdev.fragments.navigation;
 
 import android.os.Bundle;
 
@@ -46,8 +46,6 @@ public class SubsFragment extends Fragment {
         subsRecyclerView = view.findViewById(R.id.recyclerViewSubsProjects);
 
         Log.i("INIT", "ProfileFragment");
-
-        subsRecyclerView = view.findViewById(R.id.recyclerViewSubsProjects); // ---
 
         searchProjects = new ArrayList<>();
         subsProjectListAdapter = new SubsProjectListAdapter(

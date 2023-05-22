@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
@@ -14,14 +15,23 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dimitriusdev.likeminded.R;
+import com.dimitriusdev.models.MsgModel;
 import com.dimitriusdev.models.Project;
+import com.dimitriusdev.providers.AuthProvider;
+import com.dimitriusdev.repository.api.SearchApi;
 import com.dimitriusdev.viewmodels.ProfileViewModel;
 import com.dimitriusdev.viewmodels.SearchViewModel;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class SearchProjectListAdapter extends RecyclerView.Adapter<SearchProjectListAdapter.ViewHolder> {
 
+    private SearchApi searchApi;
+    private AuthProvider authProvider;
     private SearchViewModel searchViewModel;
     private final LayoutInflater layoutInflater;
     private List<Project> projectItemModels;
@@ -29,6 +39,9 @@ public class SearchProjectListAdapter extends RecyclerView.Adapter<SearchProject
     public SearchProjectListAdapter(Context context, List<Project> projectList) {
         this.layoutInflater = LayoutInflater.from(context);
         this.projectItemModels = projectList;
+
+        this.authProvider = AuthProvider.getInstance();
+        this.searchApi = new SearchApi();
 
         this.searchViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchViewModel.class);
     }
@@ -46,16 +59,34 @@ public class SearchProjectListAdapter extends RecyclerView.Adapter<SearchProject
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Project projectItemModel = projectItemModels.get(position);
-        holder.projectName.setText(projectItemModel.getName() + " " + String.valueOf(position) + " " + projectItemModel.getDescription());
-        holder.projectAuthor.setText(projectItemModel.getAuthorCustomer().getLogin());
+        Project project = projectItemModels.get(position);
+        holder.projectName.setText(project.getName() + " " + String.valueOf(position) + " " + project.getDescription());
+        holder.projectAuthor.setText(project.getAuthorCustomer().getLogin());
 
         holder.imageButton.setOnClickListener(v -> {
             Log.d("CHECK", String.valueOf(position));
 
-            searchViewModel.removeProject(position);
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(0, projectItemModels.size());
+            searchApi.createRequest()
+                    .subscribeOnProject(authProvider.getAuthModel().getLogin(), project.getName()).enqueue(new Callback<MsgModel>() {
+                        @Override
+                        public void onResponse(Call<MsgModel> call, Response<MsgModel> response) {
+                            Log.i("RESPONSE subscribeOnProject", String.valueOf(response.code()));
+
+                            if(response.code() == 200){
+                                Toast.makeText(layoutInflater.getContext(), "sibscribe", Toast.LENGTH_SHORT).show();
+                            }
+//                            searchViewModel.removeProject(position);
+//                            notifyItemChanged(position);
+//                            notifyItemRangeChanged(0, projectItemModels.size());
+                        }
+                        @Override
+                        public void onFailure(Call<MsgModel> call, Throwable t) {
+                            Toast.makeText(layoutInflater.getContext(), "connection error", Toast.LENGTH_SHORT).show();
+                            Log.i("INTERNET ERROR", t.toString());
+                        }
+                    });
+
+
         });
     }
 

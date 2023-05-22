@@ -17,11 +17,11 @@ import com.dimitriusdev.likeminded.R;
 public final class ProjectInfoDialog extends DialogFragment {
 
     private String name;
-    private String info;
+    private String description;
 
-    public ProjectInfoDialog(String name, String info){
+    public ProjectInfoDialog(String name, String description){
         this.name = name;
-        this.info = info;
+        this.description = description;
     }
 
     @Override
@@ -33,8 +33,8 @@ public final class ProjectInfoDialog extends DialogFragment {
         TextView projectName = root.findViewById(R.id.dialogeProjectName);
         projectName.setText(name);
 
-        TextView projectInfo = root.findViewById(R.id.dialogeProjectInfo);
-        projectInfo.setText(info);
+        TextView projectDescription = root.findViewById(R.id.dialogeProjectInfo);
+        projectDescription.setText(description);
 
         Button button = root.findViewById(R.id.buttonCloseProjectInfo);
         button.setOnClickListener(v -> {

@@ -1,7 +1,6 @@
 <resources>
-
-    <style name="Widget.Theme.JointU.ButtonBar.Fullscreen" parent="">
+    <style name="Theme.LikeMinded" parent="">
         <item name="android:background">@color/black_overlay</item>
-        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="android:buttonBarStyle">@color/main_theme_color_1</item>
     </style>
 </resources>
