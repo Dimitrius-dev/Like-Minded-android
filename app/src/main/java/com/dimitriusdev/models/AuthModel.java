@@ -8,6 +8,9 @@ public class AuthModel {
     public AuthModel(String login, String password, String token) {
         this.login = login;
         this.password = password;
+        this.token = token;
+    }
+    public AuthModel() {
     }
 
     public String getLogin() {

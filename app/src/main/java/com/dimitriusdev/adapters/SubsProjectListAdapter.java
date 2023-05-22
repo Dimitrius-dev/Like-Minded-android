@@ -37,10 +37,11 @@ public class SubsProjectListAdapter extends RecyclerView.Adapter<SubsProjectList
 
     public SubsProjectListAdapter(Context context, List<Project> projectList) {
         this.subsApi = new SubsApi();
-        this.authProvider = AuthProvider.getInstance();
 
         this.layoutInflater = LayoutInflater.from(context);
         this.projectItemModels = projectList;
+
+        this.authProvider = AuthProvider.getInstance(context);
 
         this.subsViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(SubsViewModel.class);
     }

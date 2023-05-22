@@ -1,13 +1,18 @@
 package com.dimitriusdev.viewmodels;
 
+import android.app.Application;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.dimitriusdev.models.AuthModel;
 import com.dimitriusdev.models.Customer;
 import com.dimitriusdev.models.Project;
+import com.dimitriusdev.providers.AuthProvider;
 import com.dimitriusdev.repository.api.ProfileApi;
 
 import java.util.ArrayList;
@@ -17,23 +22,26 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public final class ProfileViewModel extends ViewModel {
-
-    private Customer thisCustomer;
+public final class ProfileViewModel extends AndroidViewModel {
     private final MutableLiveData<List<Project>> projectItemModels;
+    //private final MutableLiveData<AuthModel> authModel;
 
-    public ProfileViewModel() {
+    private AuthProvider authProvider;
+
+    public ProfileViewModel(@NonNull Application application) {
+        super(application);
 
         Log.i("INIT", "ProfileViewModel");
-        thisCustomer = new Customer("Dima", "test");
+        //thisCustomer = new Customer("Dima", "test");
 
         projectItemModels = new MutableLiveData<>(new ArrayList<>());
+        authProvider = AuthProvider.getInstance(getApplication());
     }
 
     public void load() {
 
         new ProfileApi().createRequest()
-                .getProjects(thisCustomer.getLogin()).enqueue(new Callback<>() {
+                .getProjects(authProvider.getAuthModel().getLogin()).enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
                 Log.i("internet", String.valueOf(response.code()));
@@ -55,7 +63,9 @@ public final class ProfileViewModel extends ViewModel {
     public void addProject(Project project) {
         List<Project> list = projectItemModels.getValue();
 
-        project.setAuthorCustomer(thisCustomer);
+        project.setAuthorCustomer(
+                new Customer(authProvider.getAuthModel().getLogin(), authProvider.getAuthModel().getPassword()
+                ));
         list.add(project);
         projectItemModels.postValue(list);
     }

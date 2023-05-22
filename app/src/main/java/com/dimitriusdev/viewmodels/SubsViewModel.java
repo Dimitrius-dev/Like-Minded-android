@@ -1,7 +1,10 @@
 package com.dimitriusdev.viewmodels;
 
+import android.app.Application;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -19,15 +22,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SubsViewModel extends ViewModel {
+public class SubsViewModel extends AndroidViewModel {
     private AuthProvider authProvider;
     private final MutableLiveData<List<Project>> projectItemModels;
 
-
-    public SubsViewModel() {
+    public SubsViewModel(@NonNull Application application) {
+        super(application);
         Log.i("INIT", "SubsViewModel");
 
-        authProvider = AuthProvider.getInstance();
+        authProvider = AuthProvider.getInstance(getApplication());
 
         projectItemModels = new MutableLiveData<>(new ArrayList<>());
     }

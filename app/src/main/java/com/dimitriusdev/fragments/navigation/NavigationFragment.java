@@ -11,12 +11,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.dimitriusdev.fragments.base.ConfiguredFragment;
 import com.dimitriusdev.likeminded.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 
-public final class NavigationFragment extends Fragment {
+public final class NavigationFragment extends ConfiguredFragment {
 
     private ProfileFragment profileFragment;
     private SearchListFragment projectsFragment;
@@ -26,9 +27,6 @@ public final class NavigationFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        profileFragment = new ProfileFragment();
-        projectsFragment = new SearchListFragment();
-        agreedListFragment = new SubsFragment();
 
 
 //        getChildFragmentManager().beginTransaction()
@@ -43,19 +41,12 @@ public final class NavigationFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        View root = inflater.inflate(R.layout.fragment_navigation, container, false);
-
-        return root;
+        return inflater.inflate(R.layout.fragment_navigation, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
-//        view.findViewById(R.id.bottomNavigationMenu).setOnClickListener(id -> {
-//            Log.e("hello", String.valueOf(id));
-//        });
 
         BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottomNavigationMenu);
 
@@ -64,30 +55,19 @@ public final class NavigationFragment extends Fragment {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.item_projects:
-                        getChildFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.fragmentMenuContainer, projectsFragment, null)
-                                .commit();
+                        switchToFragment(R.id.fragmentMenuContainer, SearchListFragment.class, false);
                         return true;
                     case R.id.item_profile:
-                        getChildFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.fragmentMenuContainer, profileFragment, null)
-                                .commit();
+                        switchToFragment(R.id.fragmentMenuContainer, ProfileFragment.class, false);
                         return true;
                     case R.id.item_agreed_list:
-                        getChildFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.fragmentMenuContainer, agreedListFragment, null)
-                                .commit();
+                        switchToFragment(R.id.fragmentMenuContainer, SubsFragment.class, false);
                         return true;
-
                 }
 
                 return false;
             }
         });
-
 
         bottomNavigationView.setSelectedItemId(R.id.item_profile);
 

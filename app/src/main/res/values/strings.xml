@@ -25,6 +25,6 @@
     <string name="log_in">log in</string>
     <string name="please_write_your_login_and_password">Please write your login and password</string>
     <string name="login">Login</string>
-    <string name="password">Password</string>
+    <string name="password_string">Password</string>
     <string name="register">Register</string>
 </resources>

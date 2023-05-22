@@ -1,7 +1,10 @@
 package com.dimitriusdev.viewmodels;
 
+import android.app.Application;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -17,10 +20,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public final class SearchViewModel extends ViewModel {
+public final class SearchViewModel extends AndroidViewModel {
     private final MutableLiveData<List<Project>> projectItemModels;
 
-    public SearchViewModel() {
+    public SearchViewModel(@NonNull Application application) {
+        super(application);
         Log.i("INIT", "ProfileViewModel");
 
         projectItemModels = new MutableLiveData<>(new ArrayList<>());

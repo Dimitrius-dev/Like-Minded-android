@@ -83,6 +83,7 @@
         android:textColor="@color/main_theme_color_2"
         android:inputType="text"
         android:hint="@string/login"
+
         app:layout_constraintBottom_toTopOf="@+id/editTextPasswordRegister"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,9 +97,8 @@
         android:layout_marginBottom="120dp"
         android:ems="10"
         android:textColor="@color/main_theme_color_2"
-        android:inputType="text"
-        android:hint="@string/password"
-        android:shadowColor="@string/password"
+        android:inputType="textPassword"
+        android:hint="@string/password_string"
 
         app:layout_constraintBottom_toTopOf="@+id/buttonCreateAccountAndLogIn"
         app:layout_constraintEnd_toEndOf="parent"

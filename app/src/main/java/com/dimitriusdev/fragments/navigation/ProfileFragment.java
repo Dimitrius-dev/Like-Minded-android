@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.dimitriusdev.adapters.ProfileProjectListAdapter;
+import com.dimitriusdev.fragments.base.ConfiguredFragment;
 import com.dimitriusdev.likeminded.R;
 import com.dimitriusdev.models.Project;
 import com.dimitriusdev.viewmodels.ProfileViewModel;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public final class ProfileFragment extends Fragment {
+public final class ProfileFragment extends ConfiguredFragment {
     private ProfileViewModel profileViewModel;
     private RecyclerView projectRecyclerView;
     private ProfileProjectListAdapter profileProjectListAdapter;

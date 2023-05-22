@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,19 +15,25 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dimitriusdev.adapters.ProfileProjectListAdapter;
+import com.dimitriusdev.fragments.base.ConfiguredFragment;
 import com.dimitriusdev.fragments.navigation.NavigationFragment;
 import com.dimitriusdev.likeminded.R;
+import com.dimitriusdev.models.AuthModel;
 import com.dimitriusdev.models.Project;
+import com.dimitriusdev.providers.AuthProvider;
 import com.dimitriusdev.viewmodels.ProfileViewModel;
 
 import java.util.List;
 
-public final class RegisterFragment extends Fragment {
-    private ProfileViewModel profileViewModel;
-    private RecyclerView projectRecyclerView;
-    private ProfileProjectListAdapter profileProjectListAdapter;
-    private List<Project> profileProjects;
-    private TextView textViewNumberOfProjects;
+public final class RegisterFragment extends ConfiguredFragment {
+//    private ProfileViewModel profileViewModel;
+//    private RecyclerView projectRecyclerView;
+//    private ProfileProjectListAdapter profileProjectListAdapter;
+//    private List<Project> profileProjects;
+
+    private AuthProvider authProvider;
+    private EditText editTextLogin;
+    private EditText editTextPassword;
     private Button buttonRegisterAndLogIn;
 
     @Override
@@ -35,6 +42,7 @@ public final class RegisterFragment extends Fragment {
             ViewGroup container,
             Bundle savedInstanceState
     ) {
+        authProvider = AuthProvider.getInstance(getContext());
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_register, container, false);
     }
@@ -46,6 +54,10 @@ public final class RegisterFragment extends Fragment {
     ) {
         super.onViewCreated(view, savedInstanceState);
         Log.i("INIT", "ProfileFragment");
+
+        editTextLogin = view.findViewById(R.id.editTextLoginRegister);
+        editTextPassword = view.findViewById(R.id.editTextPasswordRegister);
+
 
 //        projectRecyclerView = view.findViewById(R.id.recycleViewProfileProjects);
 //        profileViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
@@ -72,6 +84,13 @@ public final class RegisterFragment extends Fragment {
 //        });
         buttonRegisterAndLogIn = view.findViewById(R.id.buttonCreateAccountAndLogIn);
         buttonRegisterAndLogIn.setOnClickListener(v -> {
+
+            authProvider.setAuthModel(
+                    new AuthModel(
+                            editTextLogin.getText().toString(),
+                            editTextPassword.getText().toString(),
+                            ""));
+
             //getActivity().getSupportFragmentManager()
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentMainContainer, NavigationFragment.class, null)

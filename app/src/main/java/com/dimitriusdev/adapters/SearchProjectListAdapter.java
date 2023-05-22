@@ -27,6 +27,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.HTTP;
 
 public class SearchProjectListAdapter extends RecyclerView.Adapter<SearchProjectListAdapter.ViewHolder> {
 
@@ -40,7 +41,7 @@ public class SearchProjectListAdapter extends RecyclerView.Adapter<SearchProject
         this.layoutInflater = LayoutInflater.from(context);
         this.projectItemModels = projectList;
 
-        this.authProvider = AuthProvider.getInstance();
+        this.authProvider = AuthProvider.getInstance(context);
         this.searchApi = new SearchApi();
 
         this.searchViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchViewModel.class);
@@ -70,7 +71,6 @@ public class SearchProjectListAdapter extends RecyclerView.Adapter<SearchProject
                     .subscribeOnProject(authProvider.getAuthModel().getLogin(), project.getName()).enqueue(new Callback<MsgModel>() {
                         @Override
                         public void onResponse(Call<MsgModel> call, Response<MsgModel> response) {
-                            Log.i("RESPONSE subscribeOnProject", String.valueOf(response.code()));
 
                             if(response.code() == 200){
                                 Toast.makeText(layoutInflater.getContext(), "sibscribe", Toast.LENGTH_SHORT).show();

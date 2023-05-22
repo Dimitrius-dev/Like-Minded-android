@@ -23,6 +23,7 @@ public class AuthProvider {
     private Context context;
     private AuthProvider(Context context) {
         this.context = context;
+        authenticated = false;
         //this.authModel = new AuthModel("", "");
     }
 
@@ -30,7 +31,13 @@ public class AuthProvider {
     private static String PREFERENCES_LOGIN = "login";
     private static String PREFERENCES_PASSWORD = "password";
     private static String PREFERENCES_TOKEN = "token";
+
+    private boolean authenticated;
+    public boolean isAuth(){
+        return authenticated;
+    }
     public void setAuthModel(AuthModel authModel){
+        authenticated = true;
         SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCES_ID, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
 
@@ -40,16 +47,17 @@ public class AuthProvider {
         editor.apply();
     }
     public void clearAuthModel(){
+        authenticated = false;
         SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCES_ID, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
 
         editor.clear();
+        editor.apply();
         //editor.apply();
     }
 
     public AuthModel getAuthModel(){
         SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCES_ID, Context.MODE_PRIVATE);
-
 
         return new AuthModel(
                 sharedPref.getString(PREFERENCES_LOGIN, ""),
