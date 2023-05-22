@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
 
-    tools:context="com.dimitriusdev.fragments.navigation.SearchListFragment">
+    tools:context="com.dimitriusdev.fragments.RegisterFragment">
 
 
     <LinearLayout
@@ -62,7 +62,7 @@
         app:layout_constraintGuide_begin="168dp" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonCreateAccountAndLogIn"
         android:layout_width="278dp"
         android:layout_height="51dp"
         android:layout_marginBottom="232dp"
@@ -82,7 +82,7 @@
         android:ems="10"
         android:textColor="@color/main_theme_color_2"
         android:inputType="text"
-        android:text="@string/login"
+        android:hint="@string/login"
         app:layout_constraintBottom_toTopOf="@+id/editTextPasswordRegister"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,8 +97,10 @@
         android:ems="10"
         android:textColor="@color/main_theme_color_2"
         android:inputType="text"
-        android:text="@string/password"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        android:hint="@string/password"
+        android:shadowColor="@string/password"
+
+        app:layout_constraintBottom_toTopOf="@+id/buttonCreateAccountAndLogIn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent" />

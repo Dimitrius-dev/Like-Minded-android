@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-
-    tools:context="com.dimitriusdev.fragments.navigation.SearchListFragment">
+    tools:context="com.dimitriusdev.fragments.AuthFragment">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -92,7 +91,7 @@
         android:ems="10"
         android:inputType="text"
         android:textColor="@color/main_theme_color_2"
-        android:text="@string/login"
+        android:hint="@string/login"
         app:layout_constraintBottom_toTopOf="@+id/editTextText4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -108,7 +107,7 @@
         android:inputType="text"
         android:textColor="@color/main_theme_color_2"
 
-        android:text="@string/password"
+        android:hint="@string/password"
         app:layout_constraintBottom_toTopOf="@+id/buttonLogIn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.484"

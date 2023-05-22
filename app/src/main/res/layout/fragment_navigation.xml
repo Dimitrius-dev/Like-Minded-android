@@ -11,7 +11,7 @@
     >
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerMenu"
+        android:id="@+id/fragmentMenuContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +78,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragmentContainerMenu"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentMenuContainer"
         app:menu="@menu/menu_navigation"
         />
 

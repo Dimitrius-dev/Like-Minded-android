@@ -71,20 +71,24 @@ public final class AuthFragment extends Fragment {
 //            profileProjectListAdapter.notifyDataSetChanged();
 //            textViewNumberOfProjects.setText(String.valueOf(projectItemModels.size()));
 //        });
-        buttonCreateAccount = view.findViewById(R.id.buttonCreateAccount);
-        buttonCreateAccount.setOnClickListener(v -> {
-            getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainerMenu, RegisterFragment.class, null)
-                    .addToBackStack(null)
-                    .commit();
-        });
 
         buttonLogIn = view.findViewById(R.id.buttonLogIn);
         buttonLogIn.setOnClickListener(v -> {
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainerMenu, NavigationFragment.class, null)
+                    .replace(R.id.fragmentMainContainer, NavigationFragment.class, null)
                     .commit();
         });
+
+        buttonCreateAccount = view.findViewById(R.id.buttonCreateAccount);
+        buttonCreateAccount.setOnClickListener(v -> {
+            Log.i("CHECK NULL", String.valueOf(getActivity().getSupportFragmentManager() == null));
+            getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentMainContainer, RegisterFragment.class, null)
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+
 
 //        profileViewModel.load();
     }

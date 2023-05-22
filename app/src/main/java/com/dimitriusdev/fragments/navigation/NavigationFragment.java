@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dimitriusdev.likeminded.R;
-import com.dimitriusdev.providers.AuthProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -67,19 +66,19 @@ public final class NavigationFragment extends Fragment {
                     case R.id.item_projects:
                         getChildFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.fragmentContainerMenu, projectsFragment, null)
+                                .replace(R.id.fragmentMenuContainer, projectsFragment, null)
                                 .commit();
                         return true;
                     case R.id.item_profile:
                         getChildFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.fragmentContainerMenu, profileFragment, null)
+                                .replace(R.id.fragmentMenuContainer, profileFragment, null)
                                 .commit();
                         return true;
                     case R.id.item_agreed_list:
                         getChildFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.fragmentContainerMenu, agreedListFragment, null)
+                                .replace(R.id.fragmentMenuContainer, agreedListFragment, null)
                                 .commit();
                         return true;
 

@@ -74,6 +74,8 @@ public class SearchProjectListAdapter extends RecyclerView.Adapter<SearchProject
 
                             if(response.code() == 200){
                                 Toast.makeText(layoutInflater.getContext(), "sibscribe", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(layoutInflater.getContext(), "logic error", Toast.LENGTH_SHORT).show();
                             }
 //                            searchViewModel.removeProject(position);
 //                            notifyItemChanged(position);

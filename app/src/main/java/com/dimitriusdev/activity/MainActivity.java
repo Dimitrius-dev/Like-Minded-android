@@ -23,12 +23,12 @@ public final class MainActivity extends AppCompatActivity {
         if(authProvider.getAuthModel().getLogin().isEmpty()){
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.fragmentContainerMenu, AuthFragment.class, null)
+                    .add(R.id.fragmentMainContainer, AuthFragment.class, null)
                     .commit();
         } else {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.fragmentContainerMenu, NavigationFragment.class, null)
+                    .add(R.id.fragmentMainContainer, NavigationFragment.class, null)
                     .commit();
         }
 

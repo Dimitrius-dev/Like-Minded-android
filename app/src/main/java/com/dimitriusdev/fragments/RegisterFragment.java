@@ -70,10 +70,11 @@ public final class RegisterFragment extends Fragment {
 //            profileProjectListAdapter.notifyDataSetChanged();
 //            textViewNumberOfProjects.setText(String.valueOf(projectItemModels.size()));
 //        });
-        buttonRegisterAndLogIn = view.findViewById(R.id.buttonLogIn);
+        buttonRegisterAndLogIn = view.findViewById(R.id.buttonCreateAccountAndLogIn);
         buttonRegisterAndLogIn.setOnClickListener(v -> {
+            //getActivity().getSupportFragmentManager()
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainerMenu, NavigationFragment.class, null)
+                    .replace(R.id.fragmentMainContainer, NavigationFragment.class, null)
                     .commit();
         });
 //        profileViewModel.load();

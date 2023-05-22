@@ -3,8 +3,9 @@ package com.dimitriusdev.models;
 public class AuthModel {
     private String login;
     private String password;
+    private String token;
 
-    public AuthModel(String login, String password) {
+    public AuthModel(String login, String password, String token) {
         this.login = login;
         this.password = password;
     }
@@ -23,5 +24,13 @@ public class AuthModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void getToken(String token) {
+        this.token = token;
+    }
+
+    public String getToken() {
+        return this.token;
     }
 }
