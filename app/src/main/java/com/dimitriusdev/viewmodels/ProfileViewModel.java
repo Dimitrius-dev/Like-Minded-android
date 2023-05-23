@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.dimitriusdev.models.AuthModel;
 import com.dimitriusdev.models.Customer;
@@ -24,21 +23,25 @@ import retrofit2.Response;
 
 public final class ProfileViewModel extends AndroidViewModel {
     private final MutableLiveData<List<Project>> projectItemModels;
+    private final MutableLiveData<AuthModel> authModel;
     //private final MutableLiveData<AuthModel> authModel;
 
     private AuthProvider authProvider;
 
     public ProfileViewModel(@NonNull Application application) {
         super(application);
+        authProvider = AuthProvider.getInstance(getApplication());
 
         Log.i("INIT", "ProfileViewModel");
         //thisCustomer = new Customer("Dima", "test");
 
         projectItemModels = new MutableLiveData<>(new ArrayList<>());
-        authProvider = AuthProvider.getInstance(getApplication());
+        authModel = new MutableLiveData<>(new AuthModel());
     }
 
     public void load() {
+
+        authModel.postValue(authProvider.getAuthModel());
 
         new ProfileApi().createRequest()
                 .getProjects(authProvider.getAuthModel().getLogin()).enqueue(new Callback<>() {
@@ -76,7 +79,8 @@ public final class ProfileViewModel extends AndroidViewModel {
         projectItemModels.postValue(list);
     }
 
-    public LiveData<List<Project>> getProjectItemModels() {
+    public LiveData<List<Project>> getProjectItemModelsLiveData() {
         return projectItemModels;
     }
+    public LiveData<AuthModel> getAuthModelLiveData() { return authModel; }
 }

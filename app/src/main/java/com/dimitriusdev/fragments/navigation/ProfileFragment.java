@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.dimitriusdev.adapters.ProfileProjectListAdapter;
 import com.dimitriusdev.fragments.base.ConfiguredFragment;
 import com.dimitriusdev.likeminded.R;
+import com.dimitriusdev.models.AuthModel;
 import com.dimitriusdev.models.Project;
 import com.dimitriusdev.viewmodels.ProfileViewModel;
 
@@ -31,6 +32,7 @@ public final class ProfileFragment extends ConfiguredFragment {
     private ProfileProjectListAdapter profileProjectListAdapter;
     private List<Project> profileProjects;
     private TextView textViewNumberOfProjects;
+    private TextView textProfileName;
     private Button buttonNewProject;
 
     @Override
@@ -52,7 +54,6 @@ public final class ProfileFragment extends ConfiguredFragment {
         Log.i("INIT", "ProfileFragment");
 
         projectRecyclerView = view.findViewById(R.id.recycleViewProfileProjects);
-        profileViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
 
         profileProjects = new LinkedList<>();
         profileProjectListAdapter = new ProfileProjectListAdapter(
@@ -67,12 +68,18 @@ public final class ProfileFragment extends ConfiguredFragment {
             profileProjectListAdapter.notifyDataSetChanged();
         });
 
+        profileViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
+
         textViewNumberOfProjects = view.findViewById(R.id.textViewNumberOfProjects);
-        profileViewModel.getProjectItemModels().observe(requireActivity(), projectItemModels -> {
-            Log.e("update", "data changed");
+        profileViewModel.getProjectItemModelsLiveData().observe(requireActivity(), projectItemModels -> {
             profileProjectListAdapter.updateList(projectItemModels);
             profileProjectListAdapter.notifyDataSetChanged();
             textViewNumberOfProjects.setText(String.valueOf(projectItemModels.size()));
+        });
+
+        textProfileName = view.findViewById(R.id.textViewProfileName);
+        profileViewModel.getAuthModelLiveData().observe(requireActivity(), authModel -> {
+            textProfileName.setText(authModel.getLogin());
         });
 
         profileViewModel.load();
