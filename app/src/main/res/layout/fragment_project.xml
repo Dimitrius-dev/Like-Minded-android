@@ -14,7 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/project"
-        android:textSize="24sp"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@color/main_theme_color_1"
         app:layout_constraintBottom_toTopOf="@+id/guideline9"
         app:layout_constraintEnd_toStartOf="@+id/editTextProjectName"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +34,9 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:textColor="@color/main_theme_color_1"
         android:text="@string/description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,11 +58,13 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <Button
-        android:id="@+id/buttonLogIn"
+        android:id="@+id/buttonSaveAndCreateProject"
         android:layout_width="175dp"
         android:layout_height="43dp"
         android:layout_marginTop="0dp"
         android:text="@string/save"
+        android:background="@color/main_theme_color_1"
+        android:textColor="@color/main_theme_color_2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,11 +74,13 @@
         android:id="@+id/editTextProjectName"
         android:layout_width="261dp"
         android:layout_height="41dp"
-        android:ems="10"
         android:inputType="text"
-        android:text="@string/project_name"
+        android:layout_margin="20dp"
+        android:background=""
+        android:hint="@string/project_name"
         app:layout_constraintBottom_toTopOf="@id/guideline9"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

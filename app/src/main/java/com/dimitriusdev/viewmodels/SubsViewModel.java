@@ -7,12 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.dimitriusdev.models.Project;
-import com.dimitriusdev.providers.AuthProvider;
-import com.dimitriusdev.repository.api.ProfileApi;
+import com.dimitriusdev.repository.AuthRepo;
 import com.dimitriusdev.repository.api.SubsApi;
 
 import java.util.ArrayList;
@@ -23,21 +20,22 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SubsViewModel extends AndroidViewModel {
-    private AuthProvider authProvider;
+    private AuthRepo authRepo;
     private final MutableLiveData<List<Project>> projectItemModels;
 
     public SubsViewModel(@NonNull Application application) {
         super(application);
         Log.i("INIT", "SubsViewModel");
 
-        authProvider = AuthProvider.getInstance(getApplication());
+        authRepo = AuthRepo.getInstance(getApplication());
 
         projectItemModels = new MutableLiveData<>(new ArrayList<>());
     }
 
     public void load() {
         new SubsApi().createRequest()
-                .getCustomerSubs(authProvider.getAuthModel().getLogin()).enqueue(new Callback<>() {
+                .getCustomerSubs(authRepo.getAuthModel().getToken(),
+                        authRepo.getAuthModel().getLogin()).enqueue(new Callback<>() {
                     @Override
                     public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
                         Log.i("internet", String.valueOf(response.code()));

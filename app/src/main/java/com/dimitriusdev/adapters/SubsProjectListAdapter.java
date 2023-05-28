@@ -16,9 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dimitriusdev.likeminded.R;
 import com.dimitriusdev.models.MsgModel;
 import com.dimitriusdev.models.Project;
-import com.dimitriusdev.providers.AuthProvider;
+import com.dimitriusdev.repository.AuthRepo;
 import com.dimitriusdev.repository.api.SubsApi;
-import com.dimitriusdev.viewmodels.ProfileViewModel;
 import com.dimitriusdev.viewmodels.SubsViewModel;
 
 import java.util.List;
@@ -30,7 +29,7 @@ import retrofit2.Response;
 public class SubsProjectListAdapter extends RecyclerView.Adapter<SubsProjectListAdapter.ViewHolder> {
 
     private SubsApi subsApi;
-    private AuthProvider authProvider;
+    private AuthRepo authRepo;
     private SubsViewModel subsViewModel;
     private final LayoutInflater layoutInflater;
     private List<Project> projectItemModels;
@@ -41,7 +40,7 @@ public class SubsProjectListAdapter extends RecyclerView.Adapter<SubsProjectList
         this.layoutInflater = LayoutInflater.from(context);
         this.projectItemModels = projectList;
 
-        this.authProvider = AuthProvider.getInstance(context);
+        this.authRepo = AuthRepo.getInstance(context);
 
         this.subsViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(SubsViewModel.class);
     }
@@ -67,7 +66,8 @@ public class SubsProjectListAdapter extends RecyclerView.Adapter<SubsProjectList
             Log.d("CHECK", String.valueOf(position));
 
             subsApi.createRequest()
-                    .unsubscribeOnSub(authProvider.getAuthModel().getLogin(), project.getName())
+                    .unsubscribeOnSub(authRepo.getAuthModel().getToken(),
+                            authRepo.getAuthModel().getLogin(), project.getName())
                     .enqueue(new Callback<>() {
                         @Override
                         public void onResponse(Call<MsgModel> call, Response<MsgModel> response) {

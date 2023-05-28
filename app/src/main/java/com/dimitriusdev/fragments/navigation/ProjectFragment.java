@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +23,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class ProjectFragment extends Fragment {
+
+    private ProfileViewModel profileViewModel;
+    private EditText editTextProjectName;
+    private EditText editTextProjectDescription;
+    private Button buttonCreateProject;
     @Override
     public View onCreateView(
             LayoutInflater inflater,
@@ -38,6 +45,21 @@ public class ProjectFragment extends Fragment {
     ) {
         super.onViewCreated(view, savedInstanceState);
         Log.i("INIT", "ProfileFragment");
+
+        profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
+
+        editTextProjectName = view.findViewById(R.id.editTextProjectName);
+        editTextProjectDescription = view.findViewById(R.id.editTextProjectDescription);
+        buttonCreateProject = view.findViewById(R.id.buttonSaveAndCreateProject);
+
+        buttonCreateProject.setOnClickListener(v -> {
+            profileViewModel.addProject(new Project(
+                    editTextProjectName.getText().toString(),
+                    editTextProjectDescription.getText().toString()
+            ));
+        });
+
+
 
     }
 }

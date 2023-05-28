@@ -1,16 +1,16 @@
 package com.dimitriusdev.repository.api;
 
-import com.dimitriusdev.models.Project;
-
-import java.util.List;
+import com.dimitriusdev.models.AuthModel;
 
 import retrofit2.Call;
-import retrofit2.http.GET;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface IAuthApi {
 
-//    @GET("customer/{login}")
-//    Call<Customer> getCustomerByLogin(@Path("login") String login);
+    @POST("/auth/login")
+    Call<AuthModel> logIn(@Body AuthModel authModel);
 
 //    @GET("projects")
 //    Call<List<Project>> getProjects();

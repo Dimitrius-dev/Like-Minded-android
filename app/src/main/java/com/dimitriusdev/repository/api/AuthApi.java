@@ -6,11 +6,11 @@ import com.google.gson.GsonBuilder;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class SearchApi extends BaseApi{
+public class AuthApi extends BaseApi{
 
-    private ISearchApi iSearchApi;
+    private IAuthApi iauthApi;
 
-    public SearchApi(){
+    public AuthApi(){
             Gson gson = new GsonBuilder()
                     .setLenient()
                     .create();
@@ -21,11 +21,11 @@ public class SearchApi extends BaseApi{
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
 
-            iSearchApi = retrofit.create(ISearchApi.class);
+        iauthApi = retrofit.create(IAuthApi.class);
     }
 
-    public ISearchApi createRequest(){
-        return iSearchApi;
+    public IAuthApi createRequest(){
+        return iauthApi;
     }
 
 }

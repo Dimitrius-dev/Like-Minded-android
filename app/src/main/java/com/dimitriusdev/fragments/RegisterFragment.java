@@ -7,23 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.dimitriusdev.adapters.ProfileProjectListAdapter;
 import com.dimitriusdev.fragments.base.ConfiguredFragment;
 import com.dimitriusdev.fragments.navigation.NavigationFragment;
 import com.dimitriusdev.likeminded.R;
 import com.dimitriusdev.models.AuthModel;
-import com.dimitriusdev.models.Project;
-import com.dimitriusdev.providers.AuthProvider;
-import com.dimitriusdev.viewmodels.ProfileViewModel;
-
-import java.util.List;
+import com.dimitriusdev.repository.AuthRepo;
 
 public final class RegisterFragment extends ConfiguredFragment {
 //    private ProfileViewModel profileViewModel;
@@ -31,7 +23,7 @@ public final class RegisterFragment extends ConfiguredFragment {
 //    private ProfileProjectListAdapter profileProjectListAdapter;
 //    private List<Project> profileProjects;
 
-    private AuthProvider authProvider;
+    private AuthRepo authRepo;
     private EditText editTextLogin;
     private EditText editTextPassword;
     private Button buttonRegisterAndLogIn;
@@ -42,7 +34,7 @@ public final class RegisterFragment extends ConfiguredFragment {
             ViewGroup container,
             Bundle savedInstanceState
     ) {
-        authProvider = AuthProvider.getInstance(getContext());
+        authRepo = AuthRepo.getInstance(getContext());
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_register, container, false);
     }
@@ -85,16 +77,17 @@ public final class RegisterFragment extends ConfiguredFragment {
         buttonRegisterAndLogIn = view.findViewById(R.id.buttonCreateAccountAndLogIn);
         buttonRegisterAndLogIn.setOnClickListener(v -> {
 
-            authProvider.setAuthModel(
+            authRepo.setAuthModel(
                     new AuthModel(
                             editTextLogin.getText().toString(),
                             editTextPassword.getText().toString(),
                             ""));
 
             //getActivity().getSupportFragmentManager()
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentMainContainer, NavigationFragment.class, null)
-                    .commit();
+            switchToFragment(R.id.fragmentMainContainer, NavigationFragment.class, false);
+//            getActivity().getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.fragmentMainContainer, NavigationFragment.class, null)
+//                    .commit();
         });
 //        profileViewModel.load();
     }

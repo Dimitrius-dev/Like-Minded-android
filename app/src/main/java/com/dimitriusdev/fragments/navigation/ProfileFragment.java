@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.dimitriusdev.adapters.ProfileProjectListAdapter;
@@ -20,13 +21,17 @@ import com.dimitriusdev.fragments.base.ConfiguredFragment;
 import com.dimitriusdev.likeminded.R;
 import com.dimitriusdev.models.AuthModel;
 import com.dimitriusdev.models.Project;
+import com.dimitriusdev.providers.AuthProvider;
 import com.dimitriusdev.viewmodels.ProfileViewModel;
+import com.dimitriusdev.viewmodels.SearchViewModel;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public final class ProfileFragment extends ConfiguredFragment {
+
+    private AuthProvider authProvider;
     private ProfileViewModel profileViewModel;
     private RecyclerView projectRecyclerView;
     private ProfileProjectListAdapter profileProjectListAdapter;
@@ -34,6 +39,7 @@ public final class ProfileFragment extends ConfiguredFragment {
     private TextView textViewNumberOfProjects;
     private TextView textProfileName;
     private Button buttonNewProject;
+    private ImageButton buttonExit;
 
     @Override
     public View onCreateView(
@@ -42,6 +48,7 @@ public final class ProfileFragment extends ConfiguredFragment {
             Bundle savedInstanceState
     ) {
         // Inflate the layout for this fragment
+        authProvider = AuthProvider.getInstance();
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
@@ -52,6 +59,8 @@ public final class ProfileFragment extends ConfiguredFragment {
     ) {
         super.onViewCreated(view, savedInstanceState);
         Log.i("INIT", "ProfileFragment");
+
+        profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
 
         projectRecyclerView = view.findViewById(R.id.recycleViewProfileProjects);
 
@@ -64,11 +73,20 @@ public final class ProfileFragment extends ConfiguredFragment {
 
         buttonNewProject = view.findViewById(R.id.buttonNewProject);
         buttonNewProject.setOnClickListener(v -> {
-            profileViewModel.addProject(new Project("example", "i am"));
-            profileProjectListAdapter.notifyDataSetChanged();
+            //profileViewModel.addProject(new Project("example", "i am"));
+            //
+            //new project
+            //
+            //profileProjectListAdapter.notifyDataSetChanged();
+            switchToFragment(R.id.fragmentMenuContainer, ProjectFragment.class, true);
         });
 
-        profileViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
+
+        buttonExit = view.findViewById(R.id.imageButtonExit);
+        buttonExit.setOnClickListener(v -> {
+
+            authProvider.unauthorize();
+        });
 
         textViewNumberOfProjects = view.findViewById(R.id.textViewNumberOfProjects);
         profileViewModel.getProjectItemModelsLiveData().observe(requireActivity(), projectItemModels -> {

@@ -18,6 +18,7 @@ public class SubsApi extends BaseApi{
 
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(getServiceUri())
+                    .client(client)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
 

@@ -7,11 +7,13 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Path;
 
 public interface IProfileApi {
 
     @GET("/customer/{login}/projects")
-    Call<List<Project>> getProjects(@Path("login") String login);
+    Call<List<Project>> getProjects(@Header("Authorization") String token,
+                                    @Path("login") String login);
 
 }

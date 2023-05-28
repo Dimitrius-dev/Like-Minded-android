@@ -17,9 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dimitriusdev.likeminded.R;
 import com.dimitriusdev.models.MsgModel;
 import com.dimitriusdev.models.Project;
-import com.dimitriusdev.providers.AuthProvider;
+import com.dimitriusdev.repository.AuthRepo;
 import com.dimitriusdev.repository.api.SearchApi;
-import com.dimitriusdev.viewmodels.ProfileViewModel;
 import com.dimitriusdev.viewmodels.SearchViewModel;
 
 import java.util.List;
@@ -27,12 +26,11 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.HTTP;
 
 public class SearchProjectListAdapter extends RecyclerView.Adapter<SearchProjectListAdapter.ViewHolder> {
 
     private SearchApi searchApi;
-    private AuthProvider authProvider;
+    private AuthRepo authRepo;
     private SearchViewModel searchViewModel;
     private final LayoutInflater layoutInflater;
     private List<Project> projectItemModels;
@@ -41,7 +39,7 @@ public class SearchProjectListAdapter extends RecyclerView.Adapter<SearchProject
         this.layoutInflater = LayoutInflater.from(context);
         this.projectItemModels = projectList;
 
-        this.authProvider = AuthProvider.getInstance(context);
+        this.authRepo = AuthRepo.getInstance(context);
         this.searchApi = new SearchApi();
 
         this.searchViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchViewModel.class);
@@ -68,7 +66,8 @@ public class SearchProjectListAdapter extends RecyclerView.Adapter<SearchProject
             Log.d("CHECK", String.valueOf(position));
 
             searchApi.createRequest()
-                    .subscribeOnProject(authProvider.getAuthModel().getLogin(), project.getName()).enqueue(new Callback<MsgModel>() {
+                    .subscribeOnProject(authRepo.getAuthModel().getToken(),
+                            authRepo.getAuthModel().getLogin(), project.getName()).enqueue(new Callback<MsgModel>() {
                         @Override
                         public void onResponse(Call<MsgModel> call, Response<MsgModel> response) {
 

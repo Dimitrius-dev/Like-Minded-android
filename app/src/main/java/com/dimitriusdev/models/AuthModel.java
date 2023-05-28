@@ -36,4 +36,10 @@ public class AuthModel {
     public String getToken() {
         return this.token;
     }
+
+    public boolean isEmpty(){
+        return this.login.isEmpty() &&
+                this.password.isEmpty() &&
+                this.token.isEmpty();
+    }
 }

@@ -8,8 +8,10 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.dimitriusdev.models.Project;
+import com.dimitriusdev.repository.AuthRepo;
 import com.dimitriusdev.repository.api.ProfileApi;
 import com.dimitriusdev.repository.api.SearchApi;
 
@@ -22,22 +24,26 @@ import retrofit2.Response;
 
 public final class SearchViewModel extends AndroidViewModel {
     private final MutableLiveData<List<Project>> projectItemModels;
+    private AuthRepo authRepo;
 
     public SearchViewModel(@NonNull Application application) {
         super(application);
         Log.i("INIT", "ProfileViewModel");
-
+        authRepo = AuthRepo.getInstance(getApplication());
         projectItemModels = new MutableLiveData<>(new ArrayList<>());
     }
 
     public void load() {
-        new SearchApi().createRequest().getProjects().enqueue(new Callback<>() {
+        new SearchApi().createRequest().getProjects(authRepo.getAuthModel().getToken()).enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
                 Log.i("internet", String.valueOf(response.code()));
                 if(response.code() == 200){
-                    Log.i("internet", response.body().toString());
+                    //Log.i("internet", response.body().toString());
                     projectItemModels.postValue(response.body());
+                } else if (response.code() == 401){
+                    new ViewModelProvider(getApplication()).get(AuthViewModel.class)
+                            .auth();
                 } else {
                     projectItemModels.postValue(new ArrayList<Project>());
                 }

@@ -1,72 +1,39 @@
 package com.dimitriusdev.providers;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.dimitriusdev.models.AuthModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
-public class AuthProvider {
-    private static AuthProvider instance;
+public class AuthProvider  {
+    private static AuthProvider INSTANCE = null;
+    // other instance variables can be here
 
-    public static AuthProvider getInstance(Context context) {
-        if (instance == null) {
-            instance = new AuthProvider(context);
+
+    public static synchronized AuthProvider getInstance() {
+        if (INSTANCE == null) {
+            Log.i("INIT ONCE", "new AuthProvider");
+            INSTANCE = new AuthProvider();
         }
-        Log.i("INIT ONCE", "AuthProvider");
-        return instance;
+        return INSTANCE;
     }
 
-    //private AuthModel authModel;
 
-    //Dima
-    private Context context;
-    private AuthProvider(Context context) {
-        this.context = context;
-        authenticated = false;
-        //this.authModel = new AuthModel("", "");
+    private AuthProvider() {
+        access = new MutableLiveData<>();
+    };
+
+    private final MutableLiveData<Boolean> access;
+
+    public LiveData<Boolean> getAccess(){ return access; }
+
+    public void authorize(){
+        access.postValue(true);
     }
 
-    private static String PREFERENCES_ID = "auth_config";
-    private static String PREFERENCES_LOGIN = "login";
-    private static String PREFERENCES_PASSWORD = "password";
-    private static String PREFERENCES_TOKEN = "token";
-
-    private boolean authenticated;
-    public boolean isAuth(){
-        return authenticated;
-    }
-    public void setAuthModel(AuthModel authModel){
-        authenticated = true;
-        SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCES_ID, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-
-        editor.putString(PREFERENCES_LOGIN, authModel.getLogin());
-        editor.putString(PREFERENCES_PASSWORD, authModel.getPassword());
-        editor.putString(PREFERENCES_TOKEN, authModel.getToken());
-        editor.apply();
-    }
-    public void clearAuthModel(){
-        authenticated = false;
-        SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCES_ID, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-
-        editor.clear();
-        editor.apply();
-        //editor.apply();
+    public void unauthorize(){
+        access.postValue(false);
     }
 
-    public AuthModel getAuthModel(){
-        SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCES_ID, Context.MODE_PRIVATE);
 
-        return new AuthModel(
-                sharedPref.getString(PREFERENCES_LOGIN, ""),
-                sharedPref.getString(PREFERENCES_PASSWORD, ""),
-                sharedPref.getString(PREFERENCES_TOKEN, "")
-        );
-    }
-
-//    public AuthModel getAuthModel() {
-//        return authModel;
-//    }
 }
