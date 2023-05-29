@@ -5,29 +5,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dimitriusdev.adapters.ProfileProjectListAdapter;
 import com.dimitriusdev.likeminded.R;
-import com.dimitriusdev.models.Project;
+import com.dimitriusdev.models.ProjectModel;
 import com.dimitriusdev.viewmodels.ProfileViewModel;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public final class ProjectFragment extends Fragment {
     private ProfileViewModel profileViewModel;
     private RecyclerView projectRecyclerView;
     private ProfileProjectListAdapter profileProjectListAdapter;
-    private List<Project> profileProjects;
+    private List<ProjectModel> profileProjectModels;
     private TextView textViewNumberOfProjects;
 
     @Override

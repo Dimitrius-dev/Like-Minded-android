@@ -1,8 +1,7 @@
 package com.dimitriusdev.repository.api;
 
-import com.dimitriusdev.models.Customer;
 import com.dimitriusdev.models.MsgModel;
-import com.dimitriusdev.models.Project;
+import com.dimitriusdev.models.ProjectModel;
 
 import java.util.List;
 
@@ -14,7 +13,7 @@ import retrofit2.http.Path;
 
 public interface ISearchApi {
     @GET("/projects")
-    Call<List<Project>> getProjects(@Header("Authorization") String token);
+    Call<List<ProjectModel>> getProjects(@Header("Authorization") String token);
 
     @POST("/customer/{login}/sub/{name}")
     Call<MsgModel> subscribeOnProject(@Header("Authorization") String token,

@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dimitriusdev.likeminded.R;
 import com.dimitriusdev.models.MsgModel;
-import com.dimitriusdev.models.Project;
+import com.dimitriusdev.models.ProjectModel;
 import com.dimitriusdev.repository.AuthRepo;
 import com.dimitriusdev.repository.api.SearchApi;
 import com.dimitriusdev.viewmodels.SearchViewModel;
@@ -33,11 +33,11 @@ public class SearchProjectListAdapter extends RecyclerView.Adapter<SearchProject
     private AuthRepo authRepo;
     private SearchViewModel searchViewModel;
     private final LayoutInflater layoutInflater;
-    private List<Project> projectItemModels;
+    private List<ProjectModel> projectModelItemModels;
 
-    public SearchProjectListAdapter(Context context, List<Project> projectList) {
+    public SearchProjectListAdapter(Context context, List<ProjectModel> projectModelList) {
         this.layoutInflater = LayoutInflater.from(context);
-        this.projectItemModels = projectList;
+        this.projectModelItemModels = projectModelList;
 
         this.authRepo = AuthRepo.getInstance(context);
         this.searchApi = new SearchApi();
@@ -45,8 +45,8 @@ public class SearchProjectListAdapter extends RecyclerView.Adapter<SearchProject
         this.searchViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchViewModel.class);
     }
     //
-    public void updateList(List<Project> newProjectItemModels){
-        projectItemModels = newProjectItemModels;
+    public void updateList(List<ProjectModel> newProjectItemModelModels){
+        projectModelItemModels = newProjectItemModelModels;
     }
 
     @NonNull
@@ -58,16 +58,17 @@ public class SearchProjectListAdapter extends RecyclerView.Adapter<SearchProject
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Project project = projectItemModels.get(position);
-        holder.projectName.setText(project.getName() + " " + String.valueOf(position) + " " + project.getDescription());
-        holder.projectAuthor.setText(project.getAuthorCustomer().getLogin());
+        ProjectModel projectModel = projectModelItemModels.get(position);
+        holder.projectName.setText(projectModel.getName() + " " + String.valueOf(position) + " " + projectModel.getDescription());
+        //Log.i("VIEW", projectModel.getAuthorCustomer().getLogin());
+        holder.projectAuthor.setText(projectModel.getAuthorCustomer().getLogin());
 
         holder.imageButton.setOnClickListener(v -> {
             Log.d("CHECK", String.valueOf(position));
 
             searchApi.createRequest()
                     .subscribeOnProject(authRepo.getAuthModel().getToken(),
-                            authRepo.getAuthModel().getLogin(), project.getName()).enqueue(new Callback<MsgModel>() {
+                            authRepo.getAuthModel().getLogin(), projectModel.getName()).enqueue(new Callback<MsgModel>() {
                         @Override
                         public void onResponse(Call<MsgModel> call, Response<MsgModel> response) {
 
@@ -93,7 +94,7 @@ public class SearchProjectListAdapter extends RecyclerView.Adapter<SearchProject
 
     @Override
     public int getItemCount() {
-        return projectItemModels.size();
+        return projectModelItemModels.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

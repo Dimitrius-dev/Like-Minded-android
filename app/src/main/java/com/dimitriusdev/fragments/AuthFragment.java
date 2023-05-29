@@ -7,25 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.dimitriusdev.adapters.ProfileProjectListAdapter;
 import com.dimitriusdev.fragments.base.ConfiguredFragment;
-import com.dimitriusdev.fragments.navigation.NavigationFragment;
 import com.dimitriusdev.likeminded.R;
-import com.dimitriusdev.models.Project;
 import com.dimitriusdev.viewmodels.AuthViewModel;
-import com.dimitriusdev.viewmodels.ProfileViewModel;
-
-import java.util.List;
 
 public final class AuthFragment extends ConfiguredFragment {
 

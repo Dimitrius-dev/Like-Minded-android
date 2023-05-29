@@ -15,8 +15,7 @@ import android.view.ViewGroup;
 
 import com.dimitriusdev.adapters.SearchProjectListAdapter;
 import com.dimitriusdev.likeminded.R;
-import com.dimitriusdev.models.Project;
-import com.dimitriusdev.viewmodels.ProfileViewModel;
+import com.dimitriusdev.models.ProjectModel;
 import com.dimitriusdev.viewmodels.SearchViewModel;
 
 import java.util.ArrayList;
@@ -29,14 +28,14 @@ public class SearchListFragment extends Fragment {
     private RecyclerView searchRecyclerView;
 
     private SearchProjectListAdapter searchProjectListAdapter;
-    private List<Project> searchProjects;
+    private List<ProjectModel> searchProjectModels;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
 
-        searchProjects = new ArrayList<>();
+        searchProjectModels = new ArrayList<>();
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_projects, container, false);
     }

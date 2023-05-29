@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dimitriusdev.likeminded.R;
-import com.dimitriusdev.models.Project;
+import com.dimitriusdev.models.ProjectModel;
 import com.dimitriusdev.viewmodels.ProfileViewModel;
 
 import java.util.List;
@@ -23,17 +23,17 @@ public class ProfileProjectListAdapter extends RecyclerView.Adapter<ProfileProje
 
     private ProfileViewModel profileViewModel;
     private final LayoutInflater layoutInflater;
-    private List<Project> projectItemModels;
+    private List<ProjectModel> projectModelItemModels;
 
-    public ProfileProjectListAdapter(Context context, List<Project> projectList) {
+    public ProfileProjectListAdapter(Context context, List<ProjectModel> projectModelList) {
         this.layoutInflater = LayoutInflater.from(context);
-        this.projectItemModels = projectList;
+        this.projectModelItemModels = projectModelList;
 
         this.profileViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(ProfileViewModel.class);
     }
 //
-    public void updateList(List<Project> newProjectItemModels){
-        projectItemModels = newProjectItemModels;
+    public void updateList(List<ProjectModel> newProjectItemModelModels){
+        projectModelItemModels = newProjectItemModelModels;
     }
 
     @NonNull
@@ -45,22 +45,23 @@ public class ProfileProjectListAdapter extends RecyclerView.Adapter<ProfileProje
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Project projectItemModel = projectItemModels.get(position);
-        holder.projectName.setText(projectItemModel.getName() + " " + position + " " + projectItemModel.getDescription());
-        holder.projectAuthor.setText(projectItemModel.getAuthorCustomer().getLogin());
+        ProjectModel projectModelItemModel = projectModelItemModels.get(position);
+        holder.projectName.setText(projectModelItemModel.getName() + " " + position + " " + projectModelItemModel.getDescription());
+        //holder.projectAuthor.setText(projectModelItemModel.getAuthorCustomer().getLogin());
 
         holder.imageButton.setOnClickListener(v -> {
             Log.d("CHECK", String.valueOf(position));
 
-            profileViewModel.removeProject(position);
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(0, projectItemModels.size());
+            profileViewModel.removeProject(projectModelItemModel);
+            //notifyItemRemoved(position);
+            //notifyItemRangeChanged(0, projectModelItemModels.size());
         });
+
     }
 
     @Override
     public int getItemCount() {
-        return projectItemModels.size();
+        return projectModelItemModels.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

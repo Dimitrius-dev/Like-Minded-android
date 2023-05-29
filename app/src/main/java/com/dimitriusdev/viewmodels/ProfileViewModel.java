@@ -7,11 +7,11 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.dimitriusdev.models.AuthModel;
-import com.dimitriusdev.models.Customer;
-import com.dimitriusdev.models.Project;
+import com.dimitriusdev.models.CustomerModel;
+import com.dimitriusdev.models.MsgModel;
+import com.dimitriusdev.models.ProjectModel;
 import com.dimitriusdev.providers.AuthProvider;
 import com.dimitriusdev.repository.AuthRepo;
 import com.dimitriusdev.repository.api.ProfileApi;
@@ -26,7 +26,7 @@ import retrofit2.Response;
 public final class ProfileViewModel extends AndroidViewModel {
 
     private AuthProvider authProvider;
-    private final MutableLiveData<List<Project>> projectItemModels;
+    private final MutableLiveData<List<ProjectModel>> projectItemModels;
     private final MutableLiveData<AuthModel> authModel;
     //private final MutableLiveData<AuthModel> authModel;
 
@@ -40,7 +40,7 @@ public final class ProfileViewModel extends AndroidViewModel {
         Log.i("INIT", "ProfileViewModel");
         //thisCustomer = new Customer("Dima", "test");
 
-        projectItemModels = new MutableLiveData<>(new ArrayList<>());
+        projectItemModels = new MutableLiveData<>();
         authModel = new MutableLiveData<>(new AuthModel());
     }
 
@@ -51,7 +51,7 @@ public final class ProfileViewModel extends AndroidViewModel {
                 .getProjects(authRepo.getAuthModel().getToken(),
                         authRepo.getAuthModel().getLogin()).enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
+            public void onResponse(Call<List<ProjectModel>> call, Response<List<ProjectModel>> response) {
                 Log.i("internet", String.valueOf(response.code()));
                 if(response.code() == 200){
                     Log.i("internet", response.body().toString());
@@ -63,30 +63,49 @@ public final class ProfileViewModel extends AndroidViewModel {
                 }
             }
             @Override
-            public void onFailure(Call<List<Project>> call, Throwable t) {
+            public void onFailure(Call<List<ProjectModel>> call, Throwable t) {
                 Log.i("internet", t.toString());
                 projectItemModels.postValue(new ArrayList<>());
             }
         });
     }
 
-    public void addProject(Project project) {
-        List<Project> list = projectItemModels.getValue();
+    public void addProject(ProjectModel projectModel) {
+        List<ProjectModel> list = projectItemModels.getValue();
 
-        project.setAuthorCustomer(
-                new Customer(authRepo.getAuthModel().getLogin(), authRepo.getAuthModel().getPassword()
+        projectModel.setAuthorCustomer(
+                new CustomerModel(authRepo.getAuthModel().getLogin(), authRepo.getAuthModel().getPassword()
                 ));
-        list.add(project);
+        list.add(projectModel);
         projectItemModels.postValue(list);
     }
 
-    public void removeProject(int id) {
-        List<Project> list = projectItemModels.getValue();
-        list.remove(id);
-        projectItemModels.postValue(list);
+    public void removeProject(ProjectModel projectModel) {
+        List<ProjectModel> projectModelList = projectItemModels.getValue();
+
+        new ProfileApi().createRequest().removeProject(authRepo.getAuthModel().getToken(),
+                authRepo.getAuthModel().getLogin(),
+                projectModel.getName()).enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<MsgModel> call, Response<MsgModel> response) {
+                Log.i("CHECK", String.valueOf(response.code()));
+                if(response.code() == 200){
+                    projectModelList.remove(projectModel);
+                    projectItemModels.postValue(projectModelList);
+                } else if(response.code() == 401){
+                    authProvider.unauthorize();
+                } else {
+                }
+            }
+            @Override
+            public void onFailure(Call<MsgModel> call, Throwable t) {
+
+            }
+        });
+
     }
 
-    public LiveData<List<Project>> getProjectItemModelsLiveData() {
+    public LiveData<List<ProjectModel>> getProjectItemModelsLiveData() {
         return projectItemModels;
     }
     public LiveData<AuthModel> getAuthModelLiveData() { return authModel; }

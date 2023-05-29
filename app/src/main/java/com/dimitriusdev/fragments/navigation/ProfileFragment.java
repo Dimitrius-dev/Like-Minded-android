@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,11 +18,9 @@ import android.widget.TextView;
 import com.dimitriusdev.adapters.ProfileProjectListAdapter;
 import com.dimitriusdev.fragments.base.ConfiguredFragment;
 import com.dimitriusdev.likeminded.R;
-import com.dimitriusdev.models.AuthModel;
-import com.dimitriusdev.models.Project;
+import com.dimitriusdev.models.ProjectModel;
 import com.dimitriusdev.providers.AuthProvider;
 import com.dimitriusdev.viewmodels.ProfileViewModel;
-import com.dimitriusdev.viewmodels.SearchViewModel;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -35,7 +32,7 @@ public final class ProfileFragment extends ConfiguredFragment {
     private ProfileViewModel profileViewModel;
     private RecyclerView projectRecyclerView;
     private ProfileProjectListAdapter profileProjectListAdapter;
-    private List<Project> profileProjects;
+    private List<ProjectModel> profileProjectModels;
     private TextView textViewNumberOfProjects;
     private TextView textProfileName;
     private Button buttonNewProject;
@@ -64,7 +61,7 @@ public final class ProfileFragment extends ConfiguredFragment {
 
         projectRecyclerView = view.findViewById(R.id.recycleViewProfileProjects);
 
-        profileProjects = new LinkedList<>();
+        profileProjectModels = new LinkedList<>();
         profileProjectListAdapter = new ProfileProjectListAdapter(
                 getContext(),
                 new ArrayList<>()//profileViewModel.getProjectItemModels().getValue()
@@ -73,23 +70,18 @@ public final class ProfileFragment extends ConfiguredFragment {
 
         buttonNewProject = view.findViewById(R.id.buttonNewProject);
         buttonNewProject.setOnClickListener(v -> {
-            //profileViewModel.addProject(new Project("example", "i am"));
-            //
-            //new project
-            //
-            //profileProjectListAdapter.notifyDataSetChanged();
             switchToFragment(R.id.fragmentMenuContainer, ProjectFragment.class, true);
         });
 
 
         buttonExit = view.findViewById(R.id.imageButtonExit);
         buttonExit.setOnClickListener(v -> {
-
             authProvider.unauthorize();
         });
 
         textViewNumberOfProjects = view.findViewById(R.id.textViewNumberOfProjects);
         profileViewModel.getProjectItemModelsLiveData().observe(requireActivity(), projectItemModels -> {
+            Log.i("CHECK", "changed");
             profileProjectListAdapter.updateList(projectItemModels);
             profileProjectListAdapter.notifyDataSetChanged();
             textViewNumberOfProjects.setText(String.valueOf(projectItemModels.size()));

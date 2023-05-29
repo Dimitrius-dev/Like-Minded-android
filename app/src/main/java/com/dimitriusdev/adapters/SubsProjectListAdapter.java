@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dimitriusdev.likeminded.R;
 import com.dimitriusdev.models.MsgModel;
-import com.dimitriusdev.models.Project;
+import com.dimitriusdev.models.ProjectModel;
 import com.dimitriusdev.repository.AuthRepo;
 import com.dimitriusdev.repository.api.SubsApi;
 import com.dimitriusdev.viewmodels.SubsViewModel;
@@ -32,21 +32,21 @@ public class SubsProjectListAdapter extends RecyclerView.Adapter<SubsProjectList
     private AuthRepo authRepo;
     private SubsViewModel subsViewModel;
     private final LayoutInflater layoutInflater;
-    private List<Project> projectItemModels;
+    private List<ProjectModel> projectModelItemModels;
 
-    public SubsProjectListAdapter(Context context, List<Project> projectList) {
+    public SubsProjectListAdapter(Context context, List<ProjectModel> projectModelList) {
         this.subsApi = new SubsApi();
 
         this.layoutInflater = LayoutInflater.from(context);
-        this.projectItemModels = projectList;
+        this.projectModelItemModels = projectModelList;
 
         this.authRepo = AuthRepo.getInstance(context);
 
         this.subsViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(SubsViewModel.class);
     }
 //
-    public void updateList(List<Project> newProjectItemModels){
-        projectItemModels = newProjectItemModels;
+    public void updateList(List<ProjectModel> newProjectItemModelModels){
+        projectModelItemModels = newProjectItemModelModels;
     }
 
     @NonNull
@@ -58,16 +58,16 @@ public class SubsProjectListAdapter extends RecyclerView.Adapter<SubsProjectList
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Project project = projectItemModels.get(position);
-        holder.projectName.setText(project.getName() + " " + String.valueOf(position) + " " + project.getDescription());
-        holder.projectAuthor.setText(project.getAuthorCustomer().getLogin());
+        ProjectModel projectModel = projectModelItemModels.get(position);
+        holder.projectName.setText(projectModel.getName() + " " + String.valueOf(position) + " " + projectModel.getDescription());
+        holder.projectAuthor.setText(projectModel.getAuthorCustomer().getLogin());
 
         holder.unsubImageButton.setOnClickListener(v -> {
             Log.d("CHECK", String.valueOf(position));
 
             subsApi.createRequest()
                     .unsubscribeOnSub(authRepo.getAuthModel().getToken(),
-                            authRepo.getAuthModel().getLogin(), project.getName())
+                            authRepo.getAuthModel().getLogin(), projectModel.getName())
                     .enqueue(new Callback<>() {
                         @Override
                         public void onResponse(Call<MsgModel> call, Response<MsgModel> response) {
@@ -75,7 +75,7 @@ public class SubsProjectListAdapter extends RecyclerView.Adapter<SubsProjectList
                             if (response.code() == 200) {
                                 subsViewModel.removeProject(position);
                                 notifyItemRemoved(position);
-                                notifyItemRangeChanged(0, projectItemModels.size());
+                                notifyItemRangeChanged(0, projectModelItemModels.size());
                                 return;
                             }
                         }
@@ -90,7 +90,7 @@ public class SubsProjectListAdapter extends RecyclerView.Adapter<SubsProjectList
 
     @Override
     public int getItemCount() {
-        return projectItemModels.size();
+        return projectModelItemModels.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

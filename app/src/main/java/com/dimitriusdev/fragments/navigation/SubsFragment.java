@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 import com.dimitriusdev.adapters.SubsProjectListAdapter;
 import com.dimitriusdev.likeminded.R;
-import com.dimitriusdev.models.Project;
+import com.dimitriusdev.models.ProjectModel;
 import com.dimitriusdev.viewmodels.SubsViewModel;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class SubsFragment extends Fragment {
     private RecyclerView subsRecyclerView;
 
     private SubsProjectListAdapter subsProjectListAdapter;
-    private List<Project> searchProjects;
+    private List<ProjectModel> searchProjectModels;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,7 +47,7 @@ public class SubsFragment extends Fragment {
 
         Log.i("INIT", "ProfileFragment");
 
-        searchProjects = new ArrayList<>();
+        searchProjectModels = new ArrayList<>();
         subsProjectListAdapter = new SubsProjectListAdapter(
                 getContext(),
                 new ArrayList<>()//profileViewModel.getProjectItemModels().getValue()

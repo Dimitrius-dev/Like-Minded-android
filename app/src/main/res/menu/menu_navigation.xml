@@ -2,7 +2,7 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="@string/projects"
+    <item android:title="@string/projectModels"
         android:id="@+id/item_projects"
         android:icon="@drawable/baseline_content_paste_24"/>
     <item android:title="@string/profile"
