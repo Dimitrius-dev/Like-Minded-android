@@ -45,13 +45,13 @@
 
     <EditText
         android:id="@+id/editTextProjectDescription"
-
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@null"
         android:ems="10"
-        android:inputType="text"
         android:layout_margin="10dp"
+        android:inputType="textMultiLine"
+        android:gravity="top"
         app:layout_constraintBottom_toTopOf="@+id/buttonSaveAndCreateProject"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,10 +75,11 @@
         android:id="@+id/editTextProjectName"
         android:layout_width="261dp"
         android:layout_height="41dp"
-        android:inputType="text"
         android:layout_margin="20dp"
         android:background="@null"
         android:hint="@string/project_name"
+        android:inputType="text"
+        android:textColor="@color/orange"
         app:layout_constraintBottom_toTopOf="@id/guideline9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
