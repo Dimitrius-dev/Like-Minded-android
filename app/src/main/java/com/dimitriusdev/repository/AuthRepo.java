@@ -4,9 +4,44 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.dimitriusdev.models.AuthModel;
 
+
 public class AuthRepo {
+
+    public void setAuthModel(@NonNull AuthModel authModel){
+
+        SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCES_ID, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        editor.putString(PREFERENCES_LOGIN, authModel.getLogin());
+        editor.putString(PREFERENCES_PASSWORD, authModel.getPassword());
+        editor.putString(PREFERENCES_TOKEN, authModel.getToken());
+        editor.apply();
+    }
+
+    public void clearAuthModel(){
+
+        SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCES_ID, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        editor.clear();
+        editor.apply();
+        //editor.apply();
+    }
+
+    public AuthModel getAuthModel(){
+        SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCES_ID, Context.MODE_PRIVATE);
+
+        return new AuthModel(
+                sharedPref.getString(PREFERENCES_LOGIN, ""),
+                sharedPref.getString(PREFERENCES_PASSWORD, ""),
+                sharedPref.getString(PREFERENCES_TOKEN, "")
+        );
+    }
+
     private static AuthRepo instance = null;
 
     public static synchronized AuthRepo getInstance(Context context) {
@@ -34,35 +69,7 @@ public class AuthRepo {
     public boolean isEmpty(){
         return getAuthModel().isEmpty();
     }
-    public void setAuthModel(AuthModel authModel){
 
-        SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCES_ID, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-
-        editor.putString(PREFERENCES_LOGIN, authModel.getLogin());
-        editor.putString(PREFERENCES_PASSWORD, authModel.getPassword());
-        editor.putString(PREFERENCES_TOKEN, authModel.getToken());
-        editor.apply();
-    }
-    public void clearAuthModel(){
-
-        SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCES_ID, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-
-        editor.clear();
-        editor.apply();
-        //editor.apply();
-    }
-
-    public AuthModel getAuthModel(){
-        SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCES_ID, Context.MODE_PRIVATE);
-
-        return new AuthModel(
-                sharedPref.getString(PREFERENCES_LOGIN, ""),
-                sharedPref.getString(PREFERENCES_PASSWORD, ""),
-                sharedPref.getString(PREFERENCES_TOKEN, "")
-        );
-    }
 
 //    public AuthModel getAuthModel() {
 //        return authModel;

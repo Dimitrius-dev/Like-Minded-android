@@ -59,7 +59,7 @@ public class SearchProjectListAdapter extends RecyclerView.Adapter<SearchProject
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ProjectModel projectModel = projectModelItemModels.get(position);
-        holder.projectName.setText(projectModel.getName() + " " + String.valueOf(position) + " " + projectModel.getDescription());
+        holder.projectName.setText(projectModel.getName());
         //Log.i("VIEW", projectModel.getAuthorCustomer().getLogin());
         holder.projectAuthor.setText(projectModel.getAuthorCustomer().getLogin());
 

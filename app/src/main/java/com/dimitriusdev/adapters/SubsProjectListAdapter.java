@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dimitriusdev.likeminded.R;
 import com.dimitriusdev.models.MsgModel;
 import com.dimitriusdev.models.ProjectModel;
+import com.dimitriusdev.providers.AuthProvider;
 import com.dimitriusdev.repository.AuthRepo;
 import com.dimitriusdev.repository.api.SubsApi;
 import com.dimitriusdev.viewmodels.SubsViewModel;
@@ -30,6 +31,7 @@ public class SubsProjectListAdapter extends RecyclerView.Adapter<SubsProjectList
 
     private SubsApi subsApi;
     private AuthRepo authRepo;
+    private AuthProvider authProvider;
     private SubsViewModel subsViewModel;
     private final LayoutInflater layoutInflater;
     private List<ProjectModel> projectModelItemModels;
@@ -41,7 +43,7 @@ public class SubsProjectListAdapter extends RecyclerView.Adapter<SubsProjectList
         this.projectModelItemModels = projectModelList;
 
         this.authRepo = AuthRepo.getInstance(context);
-
+        this.authProvider = AuthProvider.getInstance();
         this.subsViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(SubsViewModel.class);
     }
 //
@@ -77,6 +79,8 @@ public class SubsProjectListAdapter extends RecyclerView.Adapter<SubsProjectList
                                 notifyItemRemoved(position);
                                 notifyItemRangeChanged(0, projectModelItemModels.size());
                                 return;
+                            } else if (response.code() == 401) {
+                                authProvider.unauthorize();
                             }
                         }
                         @Override

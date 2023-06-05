@@ -81,27 +81,8 @@ public final class ProfileViewModel extends AndroidViewModel {
     }
 
     public void removeProject(ProjectModel projectModel) {
-        List<ProjectModel> projectModelList = projectItemModels.getValue();
-
-        new ProfileApi().createRequest().removeProject(authRepo.getAuthModel().getToken(),
-                authRepo.getAuthModel().getLogin(),
-                projectModel.getName()).enqueue(new Callback<>() {
-            @Override
-            public void onResponse(Call<MsgModel> call, Response<MsgModel> response) {
-                Log.i("CHECK", String.valueOf(response.code()));
-                if(response.code() == 200){
-                    projectModelList.remove(projectModel);
-                    projectItemModels.postValue(projectModelList);
-                } else if(response.code() == 401){
-                    authProvider.unauthorize();
-                } else {
-                }
-            }
-            @Override
-            public void onFailure(Call<MsgModel> call, Throwable t) {
-
-            }
-        });
+//        List<ProjectModel> projectModelList = projectItemModels.getValue();
+//        });
 
     }
 
