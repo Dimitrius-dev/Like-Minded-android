@@ -10,10 +10,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dimitriusdev.dialog.ProjectInfoDialog;
 import com.dimitriusdev.likeminded.R;
 import com.dimitriusdev.models.MsgModel;
 import com.dimitriusdev.models.ProjectModel;
@@ -53,12 +56,31 @@ public class SearchProjectListAdapter extends RecyclerView.Adapter<SearchProject
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.project_item_search, parent, false);
+
+//        view.setOnClickListener(v -> {
+//            ProjectInfoDialog projectInfoDialog = new ProjectInfoDialog()
+//        });
+
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ProjectModel projectModel = projectModelItemModels.get(position);
+
+        holder.itemView.setOnClickListener(v -> {
+            ProjectInfoDialog projectInfoDialog = new ProjectInfoDialog(projectModel);
+            projectInfoDialog.setStyle(DialogFragment.STYLE_NO_FRAME, 0);
+            //projectInfoDialog.setStyle(DialogFragment.STYLE_NO_FRAME, 0);
+            projectInfoDialog.show(
+                    ((FragmentActivity) holder.itemView.getContext()).getSupportFragmentManager(),
+                    null);
+        });
+
+        if(projectModel.getAuthorCustomer().getLogin().equals(authRepo.getAuthModel().getLogin())){
+            holder.imageButton.setVisibility(View.GONE);
+        }
+
         holder.projectName.setText(projectModel.getName());
         //Log.i("VIEW", projectModel.getAuthorCustomer().getLogin());
         holder.projectAuthor.setText(projectModel.getAuthorCustomer().getLogin());

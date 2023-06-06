@@ -9,10 +9,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dimitriusdev.dialog.ProjectInfoDialog;
 import com.dimitriusdev.likeminded.R;
 import com.dimitriusdev.models.MsgModel;
 import com.dimitriusdev.models.ProjectModel;
@@ -61,7 +63,15 @@ public class SubsProjectListAdapter extends RecyclerView.Adapter<SubsProjectList
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ProjectModel projectModel = projectModelItemModels.get(position);
-        holder.projectName.setText(projectModel.getName() + " " + String.valueOf(position) + " " + projectModel.getDescription());
+
+        holder.itemView.setOnClickListener(v -> {
+            ProjectInfoDialog projectInfoDialog = new ProjectInfoDialog(projectModel);
+            projectInfoDialog.show(
+                    ((FragmentActivity) holder.itemView.getContext()).getSupportFragmentManager(),
+                    null);
+        });
+
+        holder.projectName.setText(projectModel.getName());
         holder.projectAuthor.setText(projectModel.getAuthorCustomer().getLogin());
 
         holder.unsubImageButton.setOnClickListener(v -> {
@@ -80,7 +90,7 @@ public class SubsProjectListAdapter extends RecyclerView.Adapter<SubsProjectList
                                 notifyItemRangeChanged(0, projectModelItemModels.size());
                                 return;
                             } else if (response.code() == 401) {
-                                authProvider.unauthorize();
+                                authProvider.reauthorize();
                             }
                         }
                         @Override

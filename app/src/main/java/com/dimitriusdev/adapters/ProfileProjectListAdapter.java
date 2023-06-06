@@ -9,10 +9,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dimitriusdev.dialog.ProjectInfoDialog;
 import com.dimitriusdev.likeminded.R;
 import com.dimitriusdev.models.MsgModel;
 import com.dimitriusdev.models.ProjectModel;
@@ -60,6 +62,15 @@ public class ProfileProjectListAdapter extends RecyclerView.Adapter<ProfileProje
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ProjectModel projectModel = projectModelItemModels.get(position);
+
+        holder.itemView.setOnClickListener(v -> {
+            ProjectInfoDialog projectInfoDialog = new ProjectInfoDialog(projectModel);
+
+            projectInfoDialog.show(
+                    ((FragmentActivity) holder.itemView.getContext()).getSupportFragmentManager(),
+                    null);
+        });
+
         holder.projectName.setText(projectModel.getName());
         //holder.projectAuthor.setText(projectModelItemModel.getAuthorCustomer().getLogin());
 
@@ -81,7 +92,7 @@ public class ProfileProjectListAdapter extends RecyclerView.Adapter<ProfileProje
                         notifyItemRemoved(position);
                         notifyItemRangeChanged(0, projectModelItemModels.size());
                     } else if (response.code() == 401) {
-                        authProvider.unauthorize();
+                        authProvider.reauthorize();
                     } else {
                     }
                 }
@@ -101,14 +112,14 @@ public class ProfileProjectListAdapter extends RecyclerView.Adapter<ProfileProje
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         final TextView projectName;
-        final TextView projectAuthor;
+        //final TextView projectAuthor;
         final ImageButton imageButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             projectName = itemView.findViewById(R.id.project_name);
-            projectAuthor = itemView.findViewById(R.id.project_author);
+            //projectAuthor = itemView.findViewById(R.id.project_author);
             imageButton = itemView.findViewById(R.id.delete_project);
         }
     }
