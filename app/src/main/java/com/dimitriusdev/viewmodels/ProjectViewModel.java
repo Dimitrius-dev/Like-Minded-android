@@ -52,7 +52,7 @@ public final class ProjectViewModel extends AndroidViewModel {
                     Log.i("CHECK", "start1");
                     projectModelLiveData.postValue(projectModel);
                 } else if (response.code() == 401) {
-                    authProvider.unauthorize();
+                    authProvider.reauthorize();
                 } else {
                     Toast.makeText(getApplication(), "change project name", Toast.LENGTH_SHORT).show();
                 }

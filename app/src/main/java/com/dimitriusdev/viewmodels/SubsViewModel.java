@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.dimitriusdev.models.ProjectModel;
+import com.dimitriusdev.providers.AuthProvider;
 import com.dimitriusdev.repository.AuthRepo;
 import com.dimitriusdev.repository.api.SubsApi;
 
@@ -42,6 +43,8 @@ public class SubsViewModel extends AndroidViewModel {
                         if(response.code() == 200){
                             Log.i("internet", response.body().toString());
                             projectItemModels.postValue(response.body());
+                        } else if(response.code() == 401) {
+                            AuthProvider.getInstance().reauthorize();
                         } else {
                             projectItemModels.postValue(new ArrayList<ProjectModel>());
                         }

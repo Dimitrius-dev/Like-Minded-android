@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.dimitriusdev.models.ProjectModel;
+import com.dimitriusdev.providers.AuthProvider;
 import com.dimitriusdev.repository.AuthRepo;
 import com.dimitriusdev.repository.api.SearchApi;
 
@@ -40,8 +41,7 @@ public final class SearchViewModel extends AndroidViewModel {
                     //Log.i("internet", response.body().toString());
                     projectItemModels.postValue(response.body());
                 } else if (response.code() == 401){
-                    new ViewModelProvider(getApplication()).get(AuthViewModel.class)
-                            .auth();
+                    AuthProvider.getInstance().reauthorize();
                 } else {
                     projectItemModels.postValue(new ArrayList<ProjectModel>());
                 }

@@ -25,6 +25,9 @@ public final class AuthViewModel extends AndroidViewModel {
 
     public AuthViewModel(@NonNull Application application) {
         super(application);
+
+        needToReconnect = true;
+
         authProvider = AuthProvider.getInstance();
 
         authRepo = AuthRepo.getInstance(getApplication());
@@ -32,7 +35,7 @@ public final class AuthViewModel extends AndroidViewModel {
         authModel = new MutableLiveData<>(new AuthModel());
     }
 
-
+    private boolean needToReconnect;
     public void load(){
         authModel.postValue(authRepo.getAuthModel());
     }
@@ -57,14 +60,47 @@ public final class AuthViewModel extends AndroidViewModel {
                             authProvider.authorize();
                         } else {
                             Log.i("INIT", "auth false");
-                            authProvider.unauthorize();
-                            Toast.makeText(getApplication(), "auth failed", Toast.LENGTH_SHORT).show();
+                            if(needToReconnect){
+                                needToReconnect = false;
+                                authProvider.reauthorize();
+                                Toast.makeText(getApplication(), "reauthorise", Toast.LENGTH_SHORT).show();
+                            } else {
+                                authProvider.unauthorize();
+                                Toast.makeText(getApplication(), "auth failed", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
 
                     @Override
                     public void onFailure(Call<AuthModel> call, Throwable t) {
-                        Toast.makeText(getApplication(), "network error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplication(), "network fail", Toast.LENGTH_SHORT).show();
+                        Log.i("INIT", "auth false (fail)");
+                        authProvider.reauthorize();
+                    }
+                });
+    }
+
+    public void register(AuthModel newAuthModel) {
+        new AuthApi().createRequest()
+                .register(newAuthModel)
+                .enqueue(new Callback<>() {
+                    @Override
+                    public void onResponse(Call<AuthModel> call, Response<AuthModel> response) {
+                        Log.i("REGISTER", String.valueOf(response.code()));
+                        if (response.code() == 200) {
+                            Log.i("INIT", "auth true");
+                            authRepo.setAuthModel(response.body());
+                            authProvider.authorize();
+                        } else {
+                            Log.i("INIT", "registration failed");
+                            //authProvider.unauthorize();
+                            Toast.makeText(getApplication(), "enter unique login", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<AuthModel> call, Throwable t) {
+                        Toast.makeText(getApplication(), "network fail", Toast.LENGTH_SHORT).show();
                         Log.i("INIT", "auth false (fail)");
                         authProvider.unauthorize();
                     }

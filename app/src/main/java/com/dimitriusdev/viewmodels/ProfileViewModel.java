@@ -57,7 +57,7 @@ public final class ProfileViewModel extends AndroidViewModel {
                     Log.i("internet", response.body().toString());
                     projectItemModels.postValue(response.body());
                 } else if (response.code() == 401){
-                    authProvider.unauthorize();
+                    authProvider.reauthorize();
                 } else {
                     projectItemModels.postValue(new ArrayList<>());
                 }
