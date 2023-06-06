@@ -10,23 +10,26 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.dimitriusdev.fragments.base.ConfiguredFragment;
 import com.dimitriusdev.fragments.navigation.NavigationFragment;
 import com.dimitriusdev.likeminded.R;
 import com.dimitriusdev.models.AuthModel;
 import com.dimitriusdev.repository.AuthRepo;
+import com.dimitriusdev.viewmodels.AuthViewModel;
 
 public final class RegisterFragment extends ConfiguredFragment {
 //    private ProfileViewModel profileViewModel;
 //    private RecyclerView projectRecyclerView;
 //    private ProfileProjectListAdapter profileProjectListAdapter;
 //    private List<Project> profileProjects;
-
     private AuthRepo authRepo;
     private EditText editTextLogin;
     private EditText editTextPassword;
     private Button buttonRegisterAndLogIn;
+
+    private AuthViewModel authViewModel;
 
     @Override
     public View onCreateView(
@@ -46,6 +49,8 @@ public final class RegisterFragment extends ConfiguredFragment {
     ) {
         super.onViewCreated(view, savedInstanceState);
         Log.i("INIT", "ProfileFragment");
+
+        authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
 
         editTextLogin = view.findViewById(R.id.editTextLoginRegister);
         editTextPassword = view.findViewById(R.id.editTextPasswordRegister);
@@ -77,18 +82,22 @@ public final class RegisterFragment extends ConfiguredFragment {
         buttonRegisterAndLogIn = view.findViewById(R.id.buttonCreateAccountAndLogIn);
         buttonRegisterAndLogIn.setOnClickListener(v -> {
 
-            authRepo.setAuthModel(
-                    new AuthModel(
-                            editTextLogin.getText().toString(),
-                            editTextPassword.getText().toString(),
-                            ""));
+            authViewModel.register(new AuthModel(
+                    editTextLogin.getText().toString(),
+                    editTextPassword.getText().toString(),
+                    ""));
+        });
+//            authRepo.setAuthModel(
+//                    );
 
             //getActivity().getSupportFragmentManager()
-            switchToFragment(R.id.fragmentMainContainer, NavigationFragment.class, false);
+
+            //switchToFragment(R.id.fragmentMainContainer, NavigationFragment.class, false);
+
 //            getActivity().getSupportFragmentManager().beginTransaction()
 //                    .replace(R.id.fragmentMainContainer, NavigationFragment.class, null)
 //                    .commit();
-        });
+
 //        profileViewModel.load();
     }
 }

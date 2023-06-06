@@ -11,6 +11,7 @@ import com.dimitriusdev.fragments.AuthFragment;
 import com.dimitriusdev.fragments.navigation.NavigationFragment;
 import com.dimitriusdev.likeminded.R;
 import com.dimitriusdev.providers.AuthProvider;
+import com.dimitriusdev.providers.AuthStatus;
 import com.dimitriusdev.repository.AuthRepo;
 import com.dimitriusdev.viewmodels.AuthViewModel;
 
@@ -32,15 +33,22 @@ public final class MainActivity extends AppCompatActivity {
         this.authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
         authProvider.getAccess().observe(this, access -> {
-            if(access){
-                Log.i("INIT", "activity auth true");
+            if(access.equals(AuthStatus.AUTH)){
+                Log.i("INIT", "activity AUTH");
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragmentMainContainer, NavigationFragment.class, null)
                         .commit();
-            } else {
+            } else if(access.equals(AuthStatus.RE_AUTH)){
                 //Toast.makeText(this, "connection error", Toast.LENGTH_SHORT).show();
-                Log.i("INIT", "activity auth false");
+                Log.i("INIT", "activity RE_AUTH");
+                authViewModel.auth();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragmentMainContainer, AuthFragment.class, null)
+                        .commit();
+            } else if(access.equals(AuthStatus.UN_AUTH)){
+                Log.i("INIT", "activity UN_AUTH");
                 authRepo.clearAuthModel();
                 getSupportFragmentManager()
                         .beginTransaction()

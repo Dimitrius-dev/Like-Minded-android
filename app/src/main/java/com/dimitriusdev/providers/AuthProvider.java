@@ -18,21 +18,22 @@ public class AuthProvider  {
         return INSTANCE;
     }
 
-
+    private final MutableLiveData<AuthStatus> access;
     private AuthProvider() {
         access = new MutableLiveData<>();
     };
 
-    private final MutableLiveData<Boolean> access;
-
-    public LiveData<Boolean> getAccess(){ return access; }
+    public LiveData<AuthStatus> getAccess(){ return access; }
 
     public void authorize(){
-        access.postValue(true);
+        access.postValue(AuthStatus.AUTH);
+    }
+    public void reauthorize(){
+        access.postValue(AuthStatus.RE_AUTH);
     }
 
     public void unauthorize(){
-        access.postValue(false);
+        access.postValue(AuthStatus.UN_AUTH);
     }
 
 

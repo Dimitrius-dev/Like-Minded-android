@@ -12,6 +12,9 @@ public interface IAuthApi {
     @POST("/auth/login")
     Call<AuthModel> logIn(@Body AuthModel authModel);
 
+    @POST("/auth/register")
+    Call<AuthModel> register(@Body AuthModel authModel);
+
 //    @GET("projects")
 //    Call<List<Project>> getProjects();
 

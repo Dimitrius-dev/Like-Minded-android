@@ -1,5 +1,7 @@
 package com.dimitriusdev.dialog;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,16 +14,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.dimitriusdev.likeminded.R;
+import com.dimitriusdev.models.ProjectModel;
 
 
 public final class ProjectInfoDialog extends DialogFragment {
 
-    private String name;
-    private String description;
+    private ProjectModel projectModel;
 
-    public ProjectInfoDialog(String name, String description){
-        this.name = name;
-        this.description = description;
+    public ProjectInfoDialog(ProjectModel projectModel){
+        this.projectModel = projectModel;
     }
 
     @Override
@@ -30,11 +31,17 @@ public final class ProjectInfoDialog extends DialogFragment {
 
         View root = inflater.inflate(R.layout.dialog_info_project, container, false);
 
+        //root.getRootView().setStyle
+        //this.setStyle(DialogFragment.STYLE_NO_FRAME, 0);
+        //root.setScrollBarStyle(android.R.color.transparent);
+
+        //root.setBackground(new ColorDrawable(Color.TRANSPARENT));
+
         TextView projectName = root.findViewById(R.id.dialogeProjectName);
-        projectName.setText(name);
+        projectName.setText(projectModel.getName());
 
         TextView projectDescription = root.findViewById(R.id.dialogeProjectInfo);
-        projectDescription.setText(description);
+        projectDescription.setText(projectModel.getDescription());
 
         Button button = root.findViewById(R.id.buttonCloseProjectInfo);
         button.setOnClickListener(v -> {
