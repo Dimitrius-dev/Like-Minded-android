@@ -28,4 +28,5 @@
     <string name="password_string">Password</string>
     <string name="register">Register</string>
     <string name="profile_name">profile name</string>
+    <string name="close">close</string>
 </resources>
