@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/projectModels"
+        android:id="@+id/item_projects"
+        android:icon="@drawable/baseline_content_paste_24"/>
+    <item android:title="@string/profile"
+        android:id="@+id/item_profile"
+        android:icon="@drawable/baseline_assignment_ind_24"/>
+    <item android:title="@string/agreedlist"
+        android:id="@+id/item_agreed_list"
+        android:icon="@drawable/baseline_book_24"/>
+</menu>

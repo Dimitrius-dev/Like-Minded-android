@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Like-minded</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="buttonCounter">Counter</string>
+    <string name="buttonNews">News</string>
+    <string name="buttonList">List</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_from_profile">Belov Dmitrii Sergeevich</string>
+    <string name="yes">yes</string>
+    <string name="example_element">elenemt 1</string>
+    <string name="switch_1">Switch_1</string>
+    <string name="projectModels">Projects</string>
+    <string name="profile">Profile</string>
+    <string name="agreedlist">AgreedList</string>
+    <string name="url">url</string>
+    <string name="projectauthor">ProjectAuthor</string>
+    <string name="projectname">ProjectName</string>
+    <string name="new_project">new project</string>
+    <string name="subs">Subs</string>
+    <string name="projectModel">Project:</string>
+    <string name="description">Description</string>
+    <string name="save">save</string>
+    <string name="project_name">project name</string>
+    <string name="log_in">log in</string>
+    <string name="please_write_your_login_and_password">Please write your login and password</string>
+    <string name="login">Login</string>
+    <string name="password_string">Password</string>
+    <string name="register">Register</string>
+    <string name="profile_name">profile name</string>
+    <string name="close">close</string>
+    <string name="numOfTasks">0</string>
+</resources>
