@@ -1,6 +1,8 @@
 package com.dimitriusdev.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,9 +70,13 @@ public class SearchProjectListAdapter extends RecyclerView.Adapter<SearchProject
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ProjectModel projectModel = projectModelItemModels.get(position);
 
+
         holder.itemView.setOnClickListener(v -> {
+
             ProjectInfoDialog projectInfoDialog = new ProjectInfoDialog(projectModel);
-            projectInfoDialog.setStyle(DialogFragment.STYLE_NO_FRAME, 0);
+            //projectInfoDialog.getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));// .get.get .getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            //projectInfoDialog.getView().setBackgroundResource(android.R.color.transparent);
+            //projectInfoDialog.setStyle(DialogFragment.STYLE_NORMAL, 0); // STYLE_NO_FRAME
             //projectInfoDialog.setStyle(DialogFragment.STYLE_NO_FRAME, 0);
             projectInfoDialog.show(
                     ((FragmentActivity) holder.itemView.getContext()).getSupportFragmentManager(),

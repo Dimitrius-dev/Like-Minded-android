@@ -54,6 +54,12 @@ public final class MainActivity extends AppCompatActivity {
                         .beginTransaction()
                         .replace(R.id.fragmentMainContainer, AuthFragment.class, null)
                         .commit();
+            } else if(access.equals(AuthStatus.IGNORE)){
+                Log.i("INIT", "activity IGNORE");
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragmentMainContainer, AuthFragment.class, null)
+                        .commit();
             }
         });
 

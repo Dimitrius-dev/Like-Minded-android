@@ -28,13 +28,11 @@ public class AuthProvider  {
     public void authorize(){
         access.postValue(AuthStatus.AUTH);
     }
-    public void reauthorize(){
-        access.postValue(AuthStatus.RE_AUTH);
-    }
-
+    public void reauthorize(){ access.postValue(AuthStatus.RE_AUTH); }
     public void unauthorize(){
         access.postValue(AuthStatus.UN_AUTH);
     }
+    public void ignore(){ access.postValue(AuthStatus.IGNORE); }
 
 
 }

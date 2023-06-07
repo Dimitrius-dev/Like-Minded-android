@@ -60,14 +60,16 @@ public final class AuthViewModel extends AndroidViewModel {
                             authProvider.authorize();
                         } else {
                             Log.i("INIT", "auth false");
-                            if(needToReconnect){
-                                needToReconnect = false;
-                                authProvider.reauthorize();
-                                Toast.makeText(getApplication(), "reauthorise", Toast.LENGTH_SHORT).show();
-                            } else {
-                                authProvider.unauthorize();
-                                Toast.makeText(getApplication(), "auth failed", Toast.LENGTH_SHORT).show();
-                            }
+                            Toast.makeText(getApplication(), "auth failed", Toast.LENGTH_SHORT).show();
+                            authProvider.ignore();
+
+//                            if(needToReconnect){
+//                                needToReconnect = false;
+//                                authProvider.reauthorize();
+//                            } else {
+//                                authProvider.unauthorize();
+//                                Toast.makeText(getApplication(), "auth failed", Toast.LENGTH_SHORT).show();
+//                            }
                         }
                     }
 
@@ -75,7 +77,7 @@ public final class AuthViewModel extends AndroidViewModel {
                     public void onFailure(Call<AuthModel> call, Throwable t) {
                         Toast.makeText(getApplication(), "network fail", Toast.LENGTH_SHORT).show();
                         Log.i("INIT", "auth false (fail)");
-                        authProvider.reauthorize();
+                        authProvider.ignore();
                     }
                 });
     }

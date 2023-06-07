@@ -31,6 +31,7 @@ public final class ProjectInfoDialog extends DialogFragment {
 
         View root = inflater.inflate(R.layout.dialog_info_project, container, false);
 
+        getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         //root.getRootView().setStyle
         //this.setStyle(DialogFragment.STYLE_NO_FRAME, 0);
         //root.setScrollBarStyle(android.R.color.transparent);
