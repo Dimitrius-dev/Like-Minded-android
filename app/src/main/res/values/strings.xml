@@ -21,7 +21,7 @@
     <string name="projectModel">Project:</string>
     <string name="description">Description</string>
     <string name="save">save</string>
-    <string name="project_name">projectModel name</string>
+    <string name="project_name">project name</string>
     <string name="log_in">log in</string>
     <string name="please_write_your_login_and_password">Please write your login and password</string>
     <string name="login">Login</string>
@@ -29,4 +29,5 @@
     <string name="register">Register</string>
     <string name="profile_name">profile name</string>
     <string name="close">close</string>
+    <string name="numOfTasks">0</string>
 </resources>
